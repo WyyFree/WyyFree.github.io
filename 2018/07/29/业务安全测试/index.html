@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="BEHIND THE GROWTH">
 <meta property="og:description" content="应用漏洞挖掘，业务接口测试">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-31T08:40:09.396Z">
+<meta property="og:updated_time" content="2018-08-04T17:16:40.476Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Web业务安全测试">
 <meta name="twitter:description" content="应用漏洞挖掘，业务接口测试">
@@ -299,7 +299,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-29T14:16:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-29T14:16:00-04:00">
                 2018-07-29
               </time>
             
@@ -368,17 +368,160 @@
 
 <h2 id="身份认证"><a href="#身份认证" class="headerlink" title="身份认证"></a>身份认证</h2><p></p></center><p></p>
 <h3 id="注册"><a href="#注册" class="headerlink" title="注册"></a>注册</h3><ul>
-<li>任意用户注册</li>
+<li>任意用户注册<br>利用他人手机，邮箱号码进行注册<pre><code>i.可进行验证码遍历
+ii.验证码在数据包回显
+iii.验证码失效：可删掉该参数可空或可任意
+</code></pre></li>
+<li>批量注册<br>注册限制不严格，可导致任意用户批量注册，造成无用数据写入数据库，干扰业务。<pre><code>i.不设验证码机制
+ii.不设绑定机制，参数验证不严谨
+</code></pre></li>
+<li>空密码注册<pre><code>i.密码参数可空
+</code></pre></li>
+<li>注册覆盖<pre><code>i.注册相同的帐号名
+</code></pre></li>
 </ul>
-<h3 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h3><h3 id="密码"><a href="#密码" class="headerlink" title="密码"></a>密码</h3><h3 id="验证码机制"><a href="#验证码机制" class="headerlink" title="验证码机制"></a>验证码机制</h3><h3 id="会话标识"><a href="#会话标识" class="headerlink" title="会话标识"></a>会话标识</h3><h3 id="权限控制"><a href="#权限控制" class="headerlink" title="权限控制"></a>权限控制</h3><h4 id="平行越权"><a href="#平行越权" class="headerlink" title="平行越权"></a>平行越权</h4><h4 id="垂直越权"><a href="#垂直越权" class="headerlink" title="垂直越权"></a>垂直越权</h4><p><hr></p>
+<h3 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h3><ul>
+<li>暴力破解<pre><code>i.出现可判断的登录提示信息
+ii.不做登录尝试次数限制
+iii.不设验证码机制，或可重放不失效的验证码
+</code></pre></li>
+<li>SQL注入(万能密码)<pre><code>i.在登录框可带入SQL语句(username&apos; or &apos;1&apos;=&apos;1)    
+</code></pre></li>
+<li>验证码遍历登录<pre><code>i.使用验证码进行登录，不做验证码尝试次数限制
+</code></pre></li>
+<li>URL跳转<pre><code>i.在成功登录后进行URL跳转，URL参数可控
+</code></pre></li>
+<li>任意用户登录(越权)<pre><code>i.在登录成功后出现身份ID，单独验证身份ID再进行权限分配跳转
+</code></pre></li>
+</ul>
+<h3 id="密码"><a href="#密码" class="headerlink" title="密码"></a>密码</h3><ul>
+<li><p>忘记密码<br>1、一个帐号</p>
+<pre><code>i.验证码，判断条件无效
+    不点击发送验证码，在请求中将验证码设为空
+ii.验证码回显，可遍历
+iii.客户端验证绕过
+    修改服务端的响应包
+iiii.验证步骤跳过(丢包跳过)，步骤回退(只请求重置密码链接)
+</code></pre><p>2、两个帐号</p>
+<pre><code>i.接口参数可修改
+  1、验证码未绑定用户
+      用自己的验证码重置其他帐号密码
+  2、可修改接收验证码的手机或邮箱
+      用户名，手机号，验证码没有进行统一验证
+iii.session覆盖
+iiii.身份ID参数可修改
+</code></pre><p>3、进行用户名遍历</p>
+</li>
+<li><p>密码修改<br>1、旧密码验证</p>
+<pre><code>i.参数是否可空
+ii.参数是否存在注入绕过
+iii.参数是否在前端做验证
+</code></pre><p>2、多步骤尝试session覆盖<br>3、带有身份标识的参数，可进行越权修改密码</p>
+</li>
+</ul>
+<h3 id="验证码机制"><a href="#验证码机制" class="headerlink" title="验证码机制"></a>验证码机制</h3><ul>
+<li>验证码失效：可删掉该参数可空或可任意</li>
+<li>验证码可重复使用</li>
+<li>验证码不做次数限制(可进行暴力破解)</li>
+<li>验证码前端回显</li>
+<li>验证码前端验证绕过</li>
+</ul>
+<h3 id="会话标识"><a href="#会话标识" class="headerlink" title="会话标识"></a>会话标识</h3><ul>
+<li>session会话固定<br>登录后记录session，注销，重新登录对比session是否不变</li>
+<li>session会话注销<br>登录后截取含有session的请求包，注销，重放登录后含有session的数据包是否可以正常请求</li>
+<li>cookie仿冒<pre><code>i.cookie中含有身份标识
+</code></pre></li>
+</ul>
+<h3 id="权限控制"><a href="#权限控制" class="headerlink" title="权限控制"></a>权限控制</h3><h4 id="平行越权"><a href="#平行越权" class="headerlink" title="平行越权"></a>平行越权</h4><p>修改帐号身份ID可以查看同权限账户业务信息，操作其他帐号模块</p>
+<h4 id="垂直越权"><a href="#垂直越权" class="headerlink" title="垂直越权"></a>垂直越权</h4><p>通过修改帐号身份获得更高权限才能操作的模块</p>
+<pre><code>i.越权修改帐号密码
+ii.页面跳转中的权限ID判断，服务器返回值中带有会话标识可篡改
+</code></pre><p><hr></p>
+<center>
+
+<h2 id="业务数据修改"><a href="#业务数据修改" class="headerlink" title="业务数据修改"></a>业务数据修改</h2><p></p></center><p></p>
+<ul>
+<li>商品<br>1、在提交订单时前端控制商品金额，可抓包或直接修改前端代码<br>2、商品数量<pre><code>i.相同价格可增加商品数量
+ii.购物车商品金额统计，可修改商品数量为负数
+</code></pre>3、商品价格跟编号不绑定，低价买高价物品</li>
+</ul>
+<p><hr></p>
 <center>
 
 <h2 id="接口调用"><a href="#接口调用" class="headerlink" title="接口调用"></a>接口调用</h2><p></p></center><p></p>
-<h3 id="接口重放"><a href="#接口重放" class="headerlink" title="接口重放"></a>接口重放</h3><h3 id="接口遍历"><a href="#接口遍历" class="headerlink" title="接口遍历"></a>接口遍历</h3><h3 id="接口参数篡改"><a href="#接口参数篡改" class="headerlink" title="接口参数篡改"></a>接口参数篡改</h3><h3 id="接口未授权访问"><a href="#接口未授权访问" class="headerlink" title="接口未授权访问"></a>接口未授权访问</h3><p><hr></p>
+<h3 id="接口重放"><a href="#接口重放" class="headerlink" title="接口重放"></a>接口重放</h3><ul>
+<li>短信验证码、邮箱验证码、订单生成、评论提交，不间隔生效<pre><code>i. 短信轰炸-单个用户(短信资源耗费-轮询用户)
+</code></pre></li>
+</ul>
+<h3 id="接口遍历"><a href="#接口遍历" class="headerlink" title="接口遍历"></a>接口遍历</h3><ul>
+<li>ID遍历造成信息泄漏<br>对用户参数进行过滤,筛选出来的信息中是否含有敏感信息进行遍历<pre><code>i.订单号，用户ID...
+</code></pre></li>
+</ul>
+<h3 id="接口参数篡改"><a href="#接口参数篡改" class="headerlink" title="接口参数篡改"></a>接口参数篡改</h3><ul>
+<li>参数可被删除，修改<pre><code>i.身份标识，手机邮箱号码，订单编号重定向
+</code></pre></li>
+<li>伪造信息来源<pre><code>i.发送邮件信息
+</code></pre></li>
+<li>商品金额、数量篡改</li>
+</ul>
+<h3 id="接口未授权访问"><a href="#接口未授权访问" class="headerlink" title="接口未授权访问"></a>接口未授权访问</h3><p>爬取应用目录，筛选出MIME类型为json、script、xml、text的请求<br>1、登录后才可以访问的页面，放在没有进行身份验证的浏览器也可以访问</p>
+<p><hr></p>
 <center>
 
 <h2 id="输入输出测试"><a href="#输入输出测试" class="headerlink" title="输入输出测试"></a>输入输出测试</h2><p></p></center><p></p>
-<h3 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h3><h3 id="SQL"><a href="#SQL" class="headerlink" title="SQL"></a>SQL</h3>
+<h3 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h3><ul>
+<li>自动化测试XSS的burpsuite的扩展插件：xssValidator + phantomjs xss.js</li>
+</ul>
+<ol>
+<li>可选的URL编码格式绕过<pre><code>i.    url-encode all characters
+ii.   url-encode key characters
+iii.  base64 - data:text/html;base64, BASE64
+iiii. Convert to JavaScript constructed string
+    没有过滤script标签，针对magic_quotes_gpc过滤特殊字符
+    &lt;script&gt;String.fromCharCode(97, 108, 101, 114, 116, 40, 34, 88, 83, 83, 34, 41, 59)&lt;/script&gt; 
+</code></pre></li>
+</ol>
+<h3 id="SQL"><a href="#SQL" class="headerlink" title="SQL"></a>SQL</h3><ul>
+<li>宽字节：%df%27 -&gt; 如果’ -&gt; \’</li>
+<li>闭合输出：%2527 -&gt; ‘</li>
+</ul>
+<p><hr></p>
+<center>
+
+<h2 id="常见入侵方式Getshell方法"><a href="#常见入侵方式Getshell方法" class="headerlink" title="常见入侵方式Getshell方法"></a>常见入侵方式Getshell方法</h2><p></p></center><p></p>
+<ul>
+<li>Web入侵</li>
+</ul>
+<ol>
+<li>典型漏洞:注入Getshell , 上传Getshell,命令执行Getshell,文件包含Getshell,代码执行Getshell,编辑器getshell,后台管理Getshell,数据库操作Getshell</li>
+<li>容器相关:Tomcat、Axis2、WebLogic等中间件弱口令上传war包等,Websphere、weblogic、jboss反序列化,Struts2代码执行漏</li>
+</ol>
+<ul>
+<li>系统入侵</li>
+</ul>
+<ol>
+<li>SSH 破解后登录操作</li>
+<li>RDP 破解后登录操作</li>
+<li>MSSQL破解后远控操作</li>
+<li>SMB远程命令执行(MS08-067、MS17-010、CVE-2017-7494)</li>
+<li>密码读取<pre><code>a) Windows: Mimikatz
+b) Linux: mimipenguin
+</code></pre></li>
+</ol>
+<ul>
+<li>典型应用</li>
+</ul>
+<ol>
+<li>Mail暴力破解后信息挖掘及漏洞利用</li>
+<li>VPN暴力破解后绕过边界</li>
+<li>Redis 未授权访问或弱口令可导ssh公钥或命令执行</li>
+<li>Rsync 未授权访问类</li>
+<li>Mongodb未授权访问类</li>
+<li>Elasticsearch命令执行漏洞</li>
+<li>Memcache未授权访问漏洞</li>
+<li>服务相关口令(mysql ldap zebra squid vnc smb)</li>
+</ol>
+
       
     </div>
     
@@ -556,7 +699,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#身份认证"><span class="nav-number">1.</span> <span class="nav-text">身份认证</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注册"><span class="nav-number">1.1.</span> <span class="nav-text">注册</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#登录"><span class="nav-number">1.2.</span> <span class="nav-text">登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#密码"><span class="nav-number">1.3.</span> <span class="nav-text">密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证码机制"><span class="nav-number">1.4.</span> <span class="nav-text">验证码机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#会话标识"><span class="nav-number">1.5.</span> <span class="nav-text">会话标识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#权限控制"><span class="nav-number">1.6.</span> <span class="nav-text">权限控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#平行越权"><span class="nav-number">1.6.1.</span> <span class="nav-text">平行越权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#垂直越权"><span class="nav-number">1.6.2.</span> <span class="nav-text">垂直越权</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接口调用"><span class="nav-number">2.</span> <span class="nav-text">接口调用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#接口重放"><span class="nav-number">2.1.</span> <span class="nav-text">接口重放</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接口遍历"><span class="nav-number">2.2.</span> <span class="nav-text">接口遍历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接口参数篡改"><span class="nav-number">2.3.</span> <span class="nav-text">接口参数篡改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接口未授权访问"><span class="nav-number">2.4.</span> <span class="nav-text">接口未授权访问</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输入输出测试"><span class="nav-number">3.</span> <span class="nav-text">输入输出测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#XSS"><span class="nav-number">3.1.</span> <span class="nav-text">XSS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL"><span class="nav-number">3.2.</span> <span class="nav-text">SQL</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#身份认证"><span class="nav-number">1.</span> <span class="nav-text">身份认证</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注册"><span class="nav-number">1.1.</span> <span class="nav-text">注册</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#登录"><span class="nav-number">1.2.</span> <span class="nav-text">登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#密码"><span class="nav-number">1.3.</span> <span class="nav-text">密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证码机制"><span class="nav-number">1.4.</span> <span class="nav-text">验证码机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#会话标识"><span class="nav-number">1.5.</span> <span class="nav-text">会话标识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#权限控制"><span class="nav-number">1.6.</span> <span class="nav-text">权限控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#平行越权"><span class="nav-number">1.6.1.</span> <span class="nav-text">平行越权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#垂直越权"><span class="nav-number">1.6.2.</span> <span class="nav-text">垂直越权</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#业务数据修改"><span class="nav-number">2.</span> <span class="nav-text">业务数据修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接口调用"><span class="nav-number">3.</span> <span class="nav-text">接口调用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#接口重放"><span class="nav-number">3.1.</span> <span class="nav-text">接口重放</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接口遍历"><span class="nav-number">3.2.</span> <span class="nav-text">接口遍历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接口参数篡改"><span class="nav-number">3.3.</span> <span class="nav-text">接口参数篡改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接口未授权访问"><span class="nav-number">3.4.</span> <span class="nav-text">接口未授权访问</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输入输出测试"><span class="nav-number">4.</span> <span class="nav-text">输入输出测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#XSS"><span class="nav-number">4.1.</span> <span class="nav-text">XSS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL"><span class="nav-number">4.2.</span> <span class="nav-text">SQL</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见入侵方式Getshell方法"><span class="nav-number">5.</span> <span class="nav-text">常见入侵方式Getshell方法</span></a></li></ol></div>
             
 
           </div>

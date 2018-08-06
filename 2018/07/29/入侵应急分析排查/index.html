@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="BEHIND THE GROWTH">
 <meta property="og:description" content="应用服务器入侵应急分析手工排查">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-02T02:54:39.541Z">
+<meta property="og:updated_time" content="2018-08-04T08:20:20.177Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="入侵应急分析排查">
 <meta name="twitter:description" content="应用服务器入侵应急分析手工排查">
@@ -299,7 +299,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-29T14:39:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-29T14:39:00-04:00">
                 2018-07-29
               </time>
             
@@ -477,42 +477,6 @@ rkhunter --check --sk
 <li>假如系统的命令(例如netstat ls 等)被替换,为了进一步排查,需要下载一新的或者从其他未感染的主机拷贝新的命令。</li>
 <li>发现可疑可执行的木马文件,不要急于删除,先打包备份一份。</li>
 <li>发现可疑的文本木马文件,使用文本工具对其内容进行分析,包括回连IP地址、加密方式、关键字(以便扩大整个目录的文件特征提取)<br>……</li>
-</ol>
-<p><hr></p>
-<center>
-
-<h2 id="常见入侵方式Getshell方法"><a href="#常见入侵方式Getshell方法" class="headerlink" title="常见入侵方式Getshell方法"></a>常见入侵方式Getshell方法</h2><p></p></center><p></p>
-<ul>
-<li>Web入侵</li>
-</ul>
-<ol>
-<li>典型漏洞:注入Getshell , 上传Getshell,命令执行Getshell,文件包含Getshell,代码执行Getshell,编辑器getshell,后台管理Getshell,数据库操作Getshell</li>
-<li>容器相关:Tomcat、Axis2、WebLogic等中间件弱口令上传war包等,Websphere、weblogic、jboss反序列化,Struts2代码执行漏</li>
-</ol>
-<ul>
-<li>系统入侵</li>
-</ul>
-<ol>
-<li>SSH 破解后登录操作</li>
-<li>RDP 破解后登录操作</li>
-<li>MSSQL破解后远控操作</li>
-<li>SMB远程命令执行(MS08-067、MS17-010、CVE-2017-7494)</li>
-<li>密码读取<pre><code>a) Windows: Mimikatz
-b) Linux: mimipenguin
-</code></pre></li>
-</ol>
-<ul>
-<li>典型应用</li>
-</ul>
-<ol>
-<li>Mail暴力破解后信息挖掘及漏洞利用</li>
-<li>VPN暴力破解后绕过边界</li>
-<li>Redis 未授权访问或弱口令可导ssh公钥或命令执行</li>
-<li>Rsync 未授权访问类</li>
-<li>Mongodb未授权访问类</li>
-<li>Elasticsearch命令执行漏洞</li>
-<li>Memcache未授权访问漏洞</li>
-<li>服务相关口令(mysql ldap zebra squid vnc smb)</li>
 </ol>
 
       
@@ -692,7 +656,7 @@ b) Linux: mimipenguin
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#事件类型，排查步骤"><span class="nav-number">1.</span> <span class="nav-text">事件类型，排查步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#事件类型"><span class="nav-number">1.1.</span> <span class="nav-text">事件类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#步骤"><span class="nav-number">1.2.</span> <span class="nav-text">步骤</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统信息排查"><span class="nav-number">2.</span> <span class="nav-text">系统信息排查</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows"><span class="nav-number">2.1.</span> <span class="nav-text">Windows</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux"><span class="nav-number">2.2.</span> <span class="nav-text">Linux</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程信息分析"><span class="nav-number">3.</span> <span class="nav-text">进程信息分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows-1"><span class="nav-number">3.1.</span> <span class="nav-text">Windows</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-1"><span class="nav-number">3.2.</span> <span class="nav-text">Linux</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件信息分析"><span class="nav-number">4.</span> <span class="nav-text">文件信息分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows-2"><span class="nav-number">4.1.</span> <span class="nav-text">Windows</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-2"><span class="nav-number">4.2.</span> <span class="nav-text">Linux</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后门排查"><span class="nav-number">5.</span> <span class="nav-text">后门排查</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows-3"><span class="nav-number">5.1.</span> <span class="nav-text">Windows</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-3"><span class="nav-number">5.2.</span> <span class="nav-text">Linux</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见入侵方式Getshell方法"><span class="nav-number">6.</span> <span class="nav-text">常见入侵方式Getshell方法</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#事件类型，排查步骤"><span class="nav-number">1.</span> <span class="nav-text">事件类型，排查步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#事件类型"><span class="nav-number">1.1.</span> <span class="nav-text">事件类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#步骤"><span class="nav-number">1.2.</span> <span class="nav-text">步骤</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统信息排查"><span class="nav-number">2.</span> <span class="nav-text">系统信息排查</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows"><span class="nav-number">2.1.</span> <span class="nav-text">Windows</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux"><span class="nav-number">2.2.</span> <span class="nav-text">Linux</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程信息分析"><span class="nav-number">3.</span> <span class="nav-text">进程信息分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows-1"><span class="nav-number">3.1.</span> <span class="nav-text">Windows</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-1"><span class="nav-number">3.2.</span> <span class="nav-text">Linux</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件信息分析"><span class="nav-number">4.</span> <span class="nav-text">文件信息分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows-2"><span class="nav-number">4.1.</span> <span class="nav-text">Windows</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-2"><span class="nav-number">4.2.</span> <span class="nav-text">Linux</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后门排查"><span class="nav-number">5.</span> <span class="nav-text">后门排查</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows-3"><span class="nav-number">5.1.</span> <span class="nav-text">Windows</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-3"><span class="nav-number">5.2.</span> <span class="nav-text">Linux</span></a></li></ol></li></ol></div>
             
 
           </div>
