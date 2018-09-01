@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="BEHIND THE GROWTH">
 <meta property="og:description" content="Burpsuite对数据包进行分析">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-19T08:09:20.215Z">
+<meta property="og:updated_time" content="2018-09-01T14:06:08.861Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Burpsuite使用">
 <meta name="twitter:description" content="Burpsuite对数据包进行分析">
@@ -356,14 +356,29 @@
         <p></p>
 <h2 id="基本功能模块"><a href="#基本功能模块" class="headerlink" title="基本功能模块"></a>基本功能模块</h2><p></p>
 <ul>
-<li>Target</li>
-<li>Proxy</li>
-<li>Scanner</li>
-<li>Intruder</li>
-<li>Repeater</li>
-<li>Decoder</li>
-<li>Comparer</li>
-<li>Extender</li>
+<li>Target<br>  1、site map-代理浏览的访问站点地图<br>  2、scope-设置目标范围，过滤站点</li>
+<li>Proxy<br>  1、intercept-拦截放行丢弃数据包 - （完整的数据包，参数形式数据包，header参数形式数据包，十六进制数据包）<br>  2、http history-HTTP的请求历史，新的请求在最低部<br>  3、options-选项配置 - （代理端口，替换header内容）</li>
+<li>spider<br>  1、control-控制目录爬去的队列<br>  2、options-选项配置 - （爬取线程，表单内容，爬取header）</li>
+<li>Scanner<br>  1、issue activity-存在问题的列表<br>  2、scan queue-扫描的队列<br>  3、live scanning-扫描方式 - （主动扫描，被动扫描）<br>  4、options-选项配置 - （扫描参数位置设置，扫描速度）</li>
+<li>Intruder<br>  1、positions-爆破位置<pre><code>sniper:使用一个PAYLOAD参数，如果是多个参数，现在第一个参数位置跑完payload，再用相同的payload在第二个参数执行
+battering ram:使用一个PAYLOAD参数，多个参数位置同时使用同一个payload
+pitchfork:使用多个PAYLOAD参数，多个参数位置一一对应payload同时执行
+cluster bomb:使用多个PAYLOAD参数，迭代式将参数代入
+</code></pre>  2、payloads-爆破payload - （payload设置，规则替换、编码替换）<br>  3、options-选项配置 - （设置爆破速度，匹配字符grep match、截取字符内容grep extract）</li>
+<li>Repeater<br>  请求重放</li>
+<li>Decoder<br>  对字符进行编码（URL，base64，html）</li>
+<li>Comparer<br>  数据包内容对比 - words、bytes</li>
+<li>Extender<br>  扩展插件安装<br>  1、增强扫描（被动）：<pre><code>Software vulnerability scanner - 软件版本漏洞
+J2EEScan - strust2扫描
+Active Scan++
+LFI - 文件包含测试
+</code></pre>  2、辅助插件：<pre><code>AuthMatrix - 越权测试
+CSRF Token Tracker - token追踪更新
+XSS Validator - XSS自动化测试
+Bypass WAF - 设置请求头部，绕过WAF拦截，需要再project options中添加激活
+Upload Scan - 文件上传自动化测试，批量上次文件
+s1riu5TheFloor- 右键激活sqlmap
+</code></pre></li>
 <li>UserOptions</li>
 </ul>
 <center>
