@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="BEHIND THE GROWTH">
 <meta property="og:description" content="Burpsuite对数据包进行分析">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-09-01T14:06:08.861Z">
+<meta property="og:updated_time" content="2018-09-05T04:44:34.562Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Burpsuite使用">
 <meta name="twitter:description" content="Burpsuite对数据包进行分析">
@@ -378,13 +378,42 @@ XSS Validator - XSS自动化测试
 Bypass WAF - 设置请求头部，绕过WAF拦截，需要再project options中添加激活
 Upload Scan - 文件上传自动化测试，批量上次文件
 s1riu5TheFloor- 右键激活sqlmap
+Logger++ - 增强日志记录
 </code></pre></li>
-<li>UserOptions</li>
+<li>UserOptions<br>  设置字体、字符编码(解决请求返回中出现的乱码)、设置快捷键<br>  快捷键：<pre><code>ctrl+r - reperter - ctrl+shift+r
+ctrl+i - intruder - ctrl+shift+i
+</code></pre></li>
 </ul>
 <center>
 
 <h2 id="使用小技巧"><a href="#使用小技巧" class="headerlink" title="使用小技巧"></a>使用小技巧</h2><p></p></center><p></p>
-<h3 id="内容过滤"><a href="#内容过滤" class="headerlink" title="内容过滤"></a>内容过滤</h3><h3 id="编码Payload"><a href="#编码Payload" class="headerlink" title="编码Payload"></a>编码Payload</h3><h3 id="扩展模块"><a href="#扩展模块" class="headerlink" title="扩展模块"></a>扩展模块</h3>
+<h3 id="内容过滤"><a href="#内容过滤" class="headerlink" title="内容过滤"></a>内容过滤</h3><ul>
+<li>通过过滤请求有无参数，返回值类型，关键字符来筛选出脆弱点</li>
+<li>过滤位置：target-site map / proxy-http history</li>
+<li>过滤规则<pre><code>1、过滤请求类型
+  只显示目标范围
+  只显示请求项
+  只显示有参数的请求
+  隐藏没有找到的项
+2、过滤MIME类型(页面返回的数据类型)
+    HTML、Script、XML、Other text
+3、过滤返回值的状态码
+    2xx - 成功、3xx - 重定向、4xx - 客户端请求错误、5xx - 服务端返回错误
+4、过滤文件扩展名
+5、过滤内容关键字
+</code></pre></li>
+</ul>
+<h2 id="暴力破解模块-intruder"><a href="#暴力破解模块-intruder" class="headerlink" title="暴力破解模块(intruder)"></a>暴力破解模块(intruder)</h2><ul>
+<li>Grep-Match<br>  匹配返回包中的提取关键字，如果关键字存在则该选项会出现钩子</li>
+<li>Grep-Extract<br>  匹配一个字符区间的字符串(在返回值中筛选)，如果匹配到区间，就会把区间内容截取出来</li>
+<li>Payload Processing<br>  将暴力破解的payload进行处理(添加前缀、后缀、payload编码，字符替换…)</li>
+</ul>
+<h3 id="编码Payload"><a href="#编码Payload" class="headerlink" title="编码Payload"></a>编码Payload</h3><ul>
+<li>URL:<br>  URLDecode - ctrl+shift+u<br>  URLEncode - ctrl+u</li>
+<li>html<br>  HTMLDecode - ctrl+shift+h<br>  HTMLEncode - ctrl+h</li>
+<li>base64<br>  Base64Decode - ctrl+shift+b<br>  Base64Encode - ctrl+b</li>
+</ul>
+
       
     </div>
     
@@ -564,7 +593,7 @@ s1riu5TheFloor- 右键激活sqlmap
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本功能模块"><span class="nav-number">1.</span> <span class="nav-text">基本功能模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用小技巧"><span class="nav-number">2.</span> <span class="nav-text">使用小技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内容过滤"><span class="nav-number">2.1.</span> <span class="nav-text">内容过滤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编码Payload"><span class="nav-number">2.2.</span> <span class="nav-text">编码Payload</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展模块"><span class="nav-number">2.3.</span> <span class="nav-text">扩展模块</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本功能模块"><span class="nav-number">1.</span> <span class="nav-text">基本功能模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用小技巧"><span class="nav-number">2.</span> <span class="nav-text">使用小技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内容过滤"><span class="nav-number">2.1.</span> <span class="nav-text">内容过滤</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#暴力破解模块-intruder"><span class="nav-number">3.</span> <span class="nav-text">暴力破解模块(intruder)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#编码Payload"><span class="nav-number">3.1.</span> <span class="nav-text">编码Payload</span></a></li></ol></li></ol></div>
             
 
           </div>
